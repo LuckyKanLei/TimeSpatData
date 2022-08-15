@@ -5,7 +5,7 @@
 \alias{new_TimeRastVariable}
 \alias{new_TimeRastVariable.SpatRaster}
 \alias{new_TimeRastVariable.array}
-\title{create TimeRastVariable}
+\title{create \code{TimeRastVariable} data}
 \usage{
 new_TimeRastVariable(data_, Name_, Unit_, Time_, ...)
 
@@ -35,6 +35,8 @@ it can be projected east- and north-meter or global longitude- and latitude-degr
 \code{TimeRastVariable} data
 }
 \description{
-\code{TimeRastVariable} have time, spatial two dimensions in "macro",
-but actually due to the spatial dimension in 2D-raster, so there are there dimension in data.
+\code{TimeRastVariable} is a data class that based on 3D-array. There are
+time, spatial two dimensions in "macro",
+but actually due to the spatial dimension in 2D-raster,
+so there are there dimension in data: \strong{(time, x, y)}.
 }

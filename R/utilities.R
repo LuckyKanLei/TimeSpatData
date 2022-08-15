@@ -28,3 +28,12 @@ num_ext <- function(ext_) {
   return(read.csv(text = num_csv, header = F) |> as.numeric())
 }
 
+#' @importFrom ncdf4 ncatt_put
+write_nc_global_attr <- function(nc_, global_attr) {
+  n_attr <- length(global_attr)
+  name_attr <- names(global_attr)
+  for (i in 1:n_attr) {
+    ncatt_put(nc_, 0, name_attr[i], global_attr[i])
+  }
+}
+

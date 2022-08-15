@@ -5,7 +5,7 @@
 \alias{new_TimeRastArray}
 \alias{new_TimeRastArray.SpatRaster}
 \alias{new_TimeRastArray.array}
-\title{create TimeRastArray}
+\title{create \code{TimeRastArray} data}
 \usage{
 new_TimeRastArray(data_, Name_, Unit_, Time_, ...)
 
@@ -43,6 +43,8 @@ it can be projected east- and north-meter or global longitude- and latitude-degr
 \code{TimeRastArray} data
 }
 \description{
-\code{TimeRastArray} have time, spatial, variable three dimensions in "macro",
-but actually due to the spatial dimension in 2D-raster, so there are four dimension in data.
+\code{TimeRastArray} is a data class that based on 4D-array. There are
+time, spatial and variable three dimensions in "macro",
+but actually due to the spatial dimension in 2D-raster,
+so there are four dimension in data: \strong{(time, x, y, variable)}.
 }

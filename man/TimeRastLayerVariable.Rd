@@ -5,7 +5,7 @@
 \alias{new_TimeRastLayerVariable}
 \alias{new_TimeRastLayerVariable.SpatRaster}
 \alias{new_TimeRastLayerVariable.array}
-\title{create new_TimeRastLayerVariable}
+\title{create \code{TimeRastLayerVariable} data}
 \usage{
 new_TimeRastLayerVariable(data_, Name_, Unit_, Time_, ...)
 
@@ -33,7 +33,7 @@ new_TimeRastLayerVariable(data_, Name_, Unit_, Time_, ...)
 \arguments{
 \item{data_}{(num-array or terra::SpatRaster)
 \itemize{
-\item 3D (array) for \code{\link[=new_TimeRastVariable.array]{new_TimeRastVariable.array()}}, it must in the \strong{(time, x, y)} dimension-order, use the function \code{\link[=aperm]{aperm()}} to adjust the dimension-order
+\item 3D (array) for \code{\link[=new_TimeRastLayerVariable.array]{new_TimeRastLayerVariable.array()}}, it must in the \strong{(time, x, y)} dimension-order, use the function \code{\link[=aperm]{aperm()}} to adjust the dimension-order
 \item (terra::SpatRaster) (multilayer) for \code{\link[=new_TimeRastVariable.SpatRaster]{new_TimeRastVariable.SpatRaster()}}, created by \code{\link[terra:rast]{terra::rast()}}
 }}
 
@@ -59,9 +59,11 @@ it must be
 it can be projected east- and north-meter or global longitude- and latitude-degree}
 }
 \value{
-\code{new_TimeRastLayerVariable} data
+\code{TimeRastLayerVariable} data
 }
 \description{
-\code{new_TimeRastLayerVariable} have time, spatial two dimensions in "macro",
-but actually due to the spatial dimension in 2D-raster, so there are there dimension in data.
+\code{TimeRastLayerVariable} is a data class that based on 4D-array. There are
+time, spatial two dimensions in "macro",
+but actually due to the spatial dimension in 2D-raster and also \strong{layer} in vertical,
+so there are four dimension in data: \strong{(time, x, y, layer)}.
 }

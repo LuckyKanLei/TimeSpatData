@@ -1,5 +1,5 @@
 #' create `TimeVectVariable` data
-#' @description `TimeVectVariable` is a data class based on 2D-array. There are
+#' @description `TimeVectVariable` is a data class that based on 2D-array. There are
 #' two dimensions: time- and spatial-dimension. The spatial-dimension holds also
 #' the geological vector-data (points, lines, polygons), that is saved in the `Spat_Data`.
 #' @name TimeVectVariable
@@ -8,7 +8,7 @@
 #' @param Time_ (vector of lubridate::timepoint) time dimension, created by [lubridate::as_date()] or [lubridate::as_datetime()]
 #' @param Spat_ID (vector of char) the identifying of the spatial-dimension, they must be contained in the `Spat_Data`
 #' @param Spat_Data (terra::SpatVector) geological data, create by [terra::vect()]
-#' @param na_check (bool), if check the NAs
+#' @param na_check (bool) if check the NAs
 #' @importFrom units as_units
 #' @export
 new_TimeVectVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na_check = FALSE) { #
@@ -45,15 +45,16 @@ new_TimeVectVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data,
 
 
 #' create `TimeVectArray` data
-#' @description `TimeVectArray` is a data class based on 3D-array. There are
+#' @description `TimeVectArray` is a data class that based on 3D-array. There are
 #' three dimensions: time-, spatial- and vraiable-dimension. The spatial-dimension holds also
 #' the geological vector-data (points, lines, polygons), that is saved in the `Spat_Data`.
-#' @name TimeVectVariable
+#' @name TimeVectArray
 #' @param data_ (num-array) 3D numric array
 #' @param Name_,Unit_ (vector of char) names and units of Variables, `Unit_` should be converted by [units::as_units()]
 #' @param Time_ (vector of lubridate::timepoint) time dimension, created by [lubridate::as_date()] or [lubridate::as_datetime()]
 #' @param Spat_ID (vector of char) the identifying of the spatial-dimension, they must be contained in the `Spat_Data`
 #' @param Spat_Data (terra::SpatVector) geological data, create by [terra::vect()]
+#' @param na_check (bool) if check the NAs
 #' @export
 new_TimeVectArray <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na_check = FALSE) { #
   ## dim

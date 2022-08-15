@@ -5,7 +5,7 @@
 \alias{[[.TimeVectArray}
 \alias{[[.TimeRastArray}
 \alias{[[.TimeRastLayerArray}
-\title{read TimeSpatData}
+\title{get the \code{TimeSpatVariable} from \code{TimeSpatArray}}
 \usage{
 \method{[[}{TimeVectArray}(data_, name)
 
@@ -27,7 +27,7 @@
 \code{TimeSpatVariable} data
 }
 \description{
-get the variable from \code{TimeSpatArray} to \code{TimeSpatVariable}:
+get the variable from \code{TimeSpatArray} to \code{TimeSpatVariable} by the \code{name}:
 \itemize{
 \item \code{TimeVectArray} to \code{TimeVectVariable}
 \item \code{TimeRastArray} to \code{TimeRastVariable}

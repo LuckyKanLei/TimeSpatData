@@ -1,75 +1,3 @@
-#' read TimeSpatData
-#' @description read `TimeSpatData` from nc-file, that writed by [write_tsd()],
-#' or write by other tools that match the `TimeSpatData` convention.
-#' @param fn_ (char) filenames
-#' @param start,count (num) start and count od the data block, more see function [ncdf4::ncvar_get()]
-#' @import ncdf4
-#' @importFrom terra vect
-#' @importFrom stringr str_split
-#' @return `TimeSpatData` data
-#' - TimeVectVariable
-#' - TimeVectArray
-#' - TimeRastVariable
-#' - TimeRastArray
-#' - TimeRastLayerVariable
-#' - TimeRastLayerArray
-#' @export
-read_tsd <- function(fn_, start = NA, count = NA) {
-
-  nc_ <- nc_open(fn_)
-  # nc_
-  data_nc <- ncvar_get(nc_, "Data", start, count)
-  data_type <- ncatt_get(nc_, 0, "Data_Type")$value
-  Time_nc <- ncvar_get(nc_, "Time") |> as_datetime()
-  switch(data_type,
-         TimeVectVariable = {
-           Spat_Data <- vect(ncvar_get(nc_, "Spat_Geom"),
-                             ncatt_get(nc_, "Spat_Geom", "Shape")$value,
-                             data.frame(Spat_ID = ncvar_get(nc_, "Spat_Geom_ID")),
-                             ncatt_get(nc_, "Spat_Geom", "EPSG")$value)
-           data_ <- new_TimeVectVariable(data_nc,
-                                      ncatt_get(nc_, "Data", "Name")$value,
-                                      ncatt_get(nc_, "Data", "Unit")$value,
-                                      Time_nc,
-                                      ncvar_get(nc_, "Spat_ID"),
-                                      Spat_Data)
-         },
-         TimeVectArray = {
-           Spat_Data <- vect(ncvar_get(nc_, "Spat_Geom"),
-                             ncatt_get(nc_, "Spat_Geom", "Shape")$value,
-                             data.frame(Spat_ID = ncvar_get(nc_, "Spat_Geom_ID")),
-                             ncatt_get(nc_, "Spat_Geom", "EPSG")$value)
-           data_ <- new_TimeVectArray(data_nc,
-                             ncatt_get(nc_, "Data", "Name")$value |> str_split(",") |> unlist(),
-                             ncatt_get(nc_, "Data", "Unit")$value |> str_split(",") |> unlist(),
-                             Time_nc,
-                             ncvar_get(nc_, "Spat_ID"),
-                             Spat_Data)
-         },
-         TimeRastVariable = {
-           data_ <- new_TimeRastVariable(data_nc,
-                                         ncatt_get(nc_, "Data", "Name")$value,
-                                         ncatt_get(nc_, "Data", "Unit")$value,
-                                         Time_nc,
-                                         ncatt_get(nc_, "Geometry", "EPSG")$value,
-                                         ncvar_get(nc_, "Geometry") |> as.numeric())
-
-         },
-         TimeRastArray = {
-           data_ <- new_TimeRastArray(data_nc,
-                                         ncatt_get(nc_, "Data", "Name")$value |> str_split(",") |> unlist(),
-                                         ncatt_get(nc_, "Data", "Unit")$value |> str_split(",") |> unlist(),
-                                         Time_nc,
-                                         ncatt_get(nc_, "Geometry", "EPSG")$value,
-                                         ncvar_get(nc_, "Geometry") |> as.numeric())
-
-         })
-
-  nc_close(nc_)
-  data_
-}
-
-
 #' write TimeSpatData
 #' @description Write `TimeSpatData` to nc-file.
 #' @name write_tsd
@@ -81,7 +9,7 @@ read_tsd <- function(fn_, start = NA, count = NA) {
 #' - `TimeRastLayerVariable`
 #' - `TimeRastLayerArray`
 #' @param fn_ (char) filenames
-#' @param other_Attr other global attributes
+#' @param other_Attr (vector of named char) other global attributes
 #' @import terra ncdf4
 #' @importFrom stringr str_length
 #' @importFrom purrr map
@@ -144,6 +72,8 @@ write_tsd.TimeVectVariable <- function(data_, fn_, other_Attr = NULL) {
   ## global Attributes
   ncatt_put(nc_, 0, "Data_Type", "TimeVectVariable")
   ncatt_put(nc_, 0, "creat_time", Sys.time() |> as.character())
+
+  if(!is.null(other_Attr)) write_nc_global_attr(nc_, other_Attr)
 
   nc_close(nc_)
 
@@ -210,6 +140,9 @@ write_tsd.TimeVectArray <- function(data_, fn_, other_Attr = NULL) {
   ## global Attributes
   ncatt_put(nc_, 0, "Data_Type", "TimeVectArray")
   ncatt_put(nc_, 0, "creat_time", Sys.time() |> as.character())
+
+  if(!is.null(other_Attr)) write_nc_global_attr(nc_, other_Attr)
+
   nc_close(nc_)
 
 }
@@ -264,6 +197,9 @@ write_tsd.TimeRastVariable <- function(data_, fn_, other_Attr = NULL) {
   ## global Attributes
   ncatt_put(nc_, 0, "Data_Type", "TimeRastVariable")
   ncatt_put(nc_, 0, "creat_time", Sys.time() |> as.character())
+
+  if(!is.null(other_Attr)) write_nc_global_attr(nc_, other_Attr)
+
   nc_close(nc_)
 
 }
@@ -321,6 +257,133 @@ write_tsd.TimeRastArray <- function(data_, fn_, other_Attr = NULL) {
   ## global Attributes
   ncatt_put(nc_, 0, "Data_Type", "TimeRastArray")
   ncatt_put(nc_, 0, "creat_time", Sys.time() |> as.character())
+
+  if(!is.null(other_Attr)) write_nc_global_attr(nc_, other_Attr)
+
+  nc_close(nc_)
+
+}
+
+#' @rdname write_tsd
+#' @export
+write_tsd.TimeRastLayerVariable <- function(data_, fn_, other_Attr = NULL) {
+  data_trv <- data_
+  dim_n <- dim(data_trv)
+  rast_demo <- rast(data_trv[1,,] |> t(), crs = attr(data_trv, "Spat_crs"), extent = attr(data_trv, "Spat_extent"))
+  x_rast <- xFromCol(rast_demo, 1:dim_n[2])
+  y_rast <- yFromRow(rast_demo, 1:dim_n[3])
+  width_Time <- map(attr(data_trv, "Time"), str_length) |> unlist() |> max()
+
+  ## define the Dimensions
+  dim_time <- ncdim_def("time", "",
+                        1:dim_n[1], create_dimvar = FALSE,
+                        longname = "Date or Datetime")
+  dim_x <- ncdim_def("x", "",
+                     x_rast,
+                     longname = "[X] in projections or [Longitude] in geographic, define by the CRS (EPSG).")
+  dim_y <- ncdim_def("y", "",
+                     y_rast,
+                     longname = "[Y] in projections or [Latitude] in geographic, define by the CRS (EPSG).")
+  dim_layer <- ncdim_def("layer", "",
+                         1:dim_n[4], create_dimvar = FALSE,
+                         longname = "Layer")
+
+
+  dim_time_width <- ncdim_def("time_width", "",
+                              1:width_Time, create_dimvar = FALSE,
+                              longname = "Year, Month, Day, Hour, Minute, Second")
+  dim_extent <- ncdim_def("crs_extent", "",
+                          1:4, create_dimvar = FALSE)
+  ## define the data
+  var_Data <- ncvar_def("Data", "", list(dim_time, dim_x, dim_y, dim_layer), -9999)
+  var_time <- ncvar_def("Time", "", list(dim_time_width, dim_time), " ", prec = "char")
+  var_geometry<- ncvar_def("Geometry", "", list(dim_extent), -9999, "Geometry with EPSG (CRS) and Extent")
+
+  vars <- list(var_Data, var_time, var_geometry) #, var_name, var_unit)
+
+  ## Create a new empty netcdf file
+  nc_ <- nc_create(fn_, vars)
+
+  ## put the data
+  ncvar_put(nc_, var_Data, unclass(data_trv))
+  ncvar_put(nc_, var_time, attr(data_trv, "Time"))
+  ncvar_put(nc_, var_geometry, attr(data_trv, "Spat_extent") |> num_ext())
+
+  ## Varible Attributes
+  ncatt_put(nc_, var_Data, "Name", attr(data_trv, "Name"))
+  ncatt_put(nc_, var_Data, "Unit", attr(data_trv, "Unit") |> attr("units") |> as.character())
+  ncatt_put(nc_, var_time, "Time_Zone", tz(attr(data_trv, "Time")[1]))
+  ncatt_put(nc_, var_geometry, "Extent", "x_min, x_max, y_min, y_max")
+  ncatt_put(nc_, var_geometry, "EPSG", attr(data_trv, "Spat_crs"))
+  ## global Attributes
+  ncatt_put(nc_, 0, "Data_Type", "TimeRastLayerVariable")
+  ncatt_put(nc_, 0, "creat_time", Sys.time() |> as.character())
+
+  if(!is.null(other_Attr)) write_nc_global_attr(nc_, other_Attr)
+
+  nc_close(nc_)
+
+}
+
+#' @rdname write_tsd
+#' @export
+write_tsd.TimeRastLayerArray <- function(data_, fn_, other_Attr = NULL) {
+  data_tra <- data_
+  dim_n <- dim(data_tra)
+  rast_demo <- rast(data_tra[1,,,1] |> t(), crs = attr(data_tra, "Spat_crs"), extent = attr(data_tra, "Spat_extent"))
+  x_rast <- xFromCol(rast_demo, 1:dim_n[2])
+  y_rast <- yFromRow(rast_demo, 1:dim_n[3])
+  width_Time <- map(attr(data_tra, "Time"), str_length) |> unlist() |> max()
+
+  ## define the Dimensions
+  dim_time <- ncdim_def("time", "",
+                        1:dim_n[1], create_dimvar = FALSE,
+                        longname = "Date or Datetime")
+  dim_x <- ncdim_def("x", "",
+                     x_rast,
+                     longname = "[X] in projections or [Longitude] in geographic, define by the CRS (EPSG).")
+  dim_y <- ncdim_def("y", "",
+                     y_rast,
+                     longname = "[Y] in projections or [Latitude] in geographic, define by the CRS (EPSG).")
+  dim_layer <- ncdim_def("layer", "",
+                         1:dim_n[4], create_dimvar = FALSE,
+                         longname = "Layer")
+  dim_vari <- ncdim_def("vari", "",
+                        1:dim_n[5], create_dimvar = FALSE,
+                        longname = "Name of variables")
+
+  dim_time_width <- ncdim_def("time_width", "",
+                              1:width_Time, create_dimvar = FALSE,
+                              longname = "Year, Month, Day, Hour, Minute, Second")
+  dim_extent <- ncdim_def("crs_extent", "",
+                          1:4, create_dimvar = FALSE)
+
+  ## define the data
+  var_Data <- ncvar_def("Data", "", list(dim_time, dim_x, dim_y, dim_layer, dim_vari), -9999)
+  var_time <- ncvar_def("Time", "", list(dim_time_width, dim_time), " ", prec = "char")
+  var_geometry<- ncvar_def("Geometry", "", list(dim_extent), -9999, "Geometry with EPSG (CRS) and Extent")
+
+  vars <- list(var_Data, var_time, var_geometry) #, var_name, var_unit)
+
+  ## Create a new empty netcdf file
+  nc_ <- nc_create(fn_, vars)
+
+  ## put the data
+  ncvar_put(nc_, var_Data, unclass(data_tra))
+  ncvar_put(nc_, var_time, attr(data_tra, "Time"))
+  ncvar_put(nc_, var_geometry, attr(data_tra, "Spat_extent") |> num_ext())
+  ## Varible Attributes
+  ncatt_put(nc_, var_Data, "Name", paste0(attr(data_tra, "Name"), collapse = ","))
+  ncatt_put(nc_, var_Data, "Unit", paste0(attr(data_tra, "Unit"), collapse = ","))
+  ncatt_put(nc_, var_time, "Time_Zone", tz(attr(data_tra, "Time")[1]))
+  ncatt_put(nc_, var_geometry, "EPSG", attr(data_tra, "Spat_crs"))
+  ncatt_put(nc_, var_geometry, "Extent", "x_min, x_max, y_min, y_max")
+  ## global Attributes
+  ncatt_put(nc_, 0, "Data_Type", "TimeRastLayerArray")
+  ncatt_put(nc_, 0, "creat_time", Sys.time() |> as.character())
+
+  if(!is.null(other_Attr)) write_nc_global_attr(nc_, other_Attr)
+
   nc_close(nc_)
 
 }

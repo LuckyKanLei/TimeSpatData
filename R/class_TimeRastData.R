@@ -1,6 +1,8 @@
-#' create TimeRastVariable
-#' @description `TimeRastVariable` have time, spatial two dimensions in "macro",
-#' but actually due to the spatial dimension in 2D-raster, so there are there dimension in data.
+#' create `TimeRastVariable` data
+#' @description `TimeRastVariable` is a data class that based on 3D-array. There are
+#' time, spatial two dimensions in "macro",
+#' but actually due to the spatial dimension in 2D-raster,
+#' so there are there dimension in data: **(time, x, y)**.
 #' @name TimeRastVariable
 #' @param data_ (num-array or terra::SpatRaster)
 #' - 3D (array) for [new_TimeRastVariable.array()], it must in the **(time, x, y)** dimension-order, use the function [aperm()] to adjust the dimension-order
@@ -84,9 +86,11 @@ new_TimeRastVariable.array <- function(data_, Name_, Unit_, Time_, Spat_EPSG, Sp
 }
 
 
-#' create TimeRastArray
-#' @description `TimeRastArray` have time, spatial, variable three dimensions in "macro",
-#' but actually due to the spatial dimension in 2D-raster, so there are four dimension in data.
+#' create `TimeRastArray` data
+#' @description `TimeRastArray` is a data class that based on 4D-array. There are
+#' time, spatial and variable three dimensions in "macro",
+#' but actually due to the spatial dimension in 2D-raster,
+#' so there are four dimension in data: **(time, x, y, variable)**.
 #' @name TimeRastArray
 #' @param data_ (num-array or terra::SpatRaster)
 #' - 4D (array) for [new_TimeRastArray.array()], it must in the **(time, x, y, variable)** dimension-order, use the function [aperm()] to adjust the dimension-order
@@ -186,18 +190,20 @@ new_TimeRastArray.array <- function(data_, Name_, Unit_, Time_, Spat_EPSG, Spat_
 }
 
 
-#' create new_TimeRastLayerVariable
-#' @description `new_TimeRastLayerVariable` have time, spatial two dimensions in "macro",
-#' but actually due to the spatial dimension in 2D-raster, so there are there dimension in data.
+#' create `TimeRastLayerVariable` data
+#' @description `TimeRastLayerVariable` is a data class that based on 4D-array. There are
+#' time, spatial two dimensions in "macro",
+#' but actually due to the spatial dimension in 2D-raster and also **layer** in vertical,
+#' so there are four dimension in data: **(time, x, y, layer)**.
 #' @name TimeRastLayerVariable
 #' @param data_ (num-array or terra::SpatRaster)
-#' - 3D (array) for [new_TimeRastVariable.array()], it must in the **(time, x, y)** dimension-order, use the function [aperm()] to adjust the dimension-order
+#' - 3D (array) for [new_TimeRastLayerVariable.array()], it must in the **(time, x, y)** dimension-order, use the function [aperm()] to adjust the dimension-order
 #' - (terra::SpatRaster) (multilayer) for [new_TimeRastVariable.SpatRaster()], created by [terra::rast()]
 #' @param Name_,Unit_ (char) name and unit of Variable, `Unit_` should be  [units::as_units()]
 #' @param Time_ (vector of lubridate::timepoint) time dimension, created by [lubridate::as_date()] or [lubridate::as_datetime()]
 #' @param n_Layer (integer) number of the data layers
 #' @param ... other parameters
-#' @return `new_TimeRastLayerVariable` data
+#' @return `TimeRastLayerVariable` data
 #' @export
 new_TimeRastLayerVariable <- function(data_, Name_, Unit_, Time_, ...) UseMethod("new_TimeRastLayerVariable", data_)
 
@@ -290,9 +296,11 @@ new_TimeRastLayerVariable.array <- function(data_, Name_, Unit_, Time_, Spat_EPS
 
 }
 
-#' create TimeRastLayerArray
-#' @description `TimeRastLayerArray` have time, spatial two dimensions in "macro",
-#' but actually due to the spatial dimension in 2D-raster, so there are there dimension in data.
+#' create `TimeRastLayerArray` data
+#' @description `TimeRastLayerArray` is a data class that based on 4D-array. There are
+#' time, spatial and variable three dimensions in "macro",
+#' but actually due to the spatial dimension in 2D-raster and also **layer** in vertical,
+#' so there are five dimension in data: **(time, x, y, layer, variable)**.
 #' @name TimeRastLayerArray
 #' @param data_ (num-array or terra::SpatRaster)
 #' - 3D (array) for [new_TimeRastVariable.array()], it must in the **(time, x, y)** dimension-order, use the function [aperm()] to adjust the dimension-order

@@ -1,5 +1,5 @@
-#' read TimeSpatData
-#' @description get the variable from `TimeSpatArray` to `TimeSpatVariable`:
+#' get the `TimeSpatVariable` from `TimeSpatArray`
+#' @description get the variable from `TimeSpatArray` to `TimeSpatVariable` by the `name`:
 #' - `TimeVectArray` to `TimeVectVariable`
 #' - `TimeRastArray` to `TimeRastVariable`
 #' - `TimeRastLayerArray` to `TimeRastLayerVariable`
