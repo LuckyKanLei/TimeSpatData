@@ -22,13 +22,13 @@ check_dim_time <- function(data_, Time_) {
 #' @import rlang glue units
 check_unit <- function(Unit_) {
   tryCatch(
-    as_units(Unit_),
-    abort(
+    {as_units(Unit_)},
+    error = function(cond){abort(
       glue_col(
-        "{red '{Unit_}'} (in `Unit_`) can't be  convernt to a {blue units::unit}, try to check unit with the function {green units::as_unit()} and show more pre-defined units from UDUNITS2 with {green units::valid_udunits()} and {green units::valid_udunits_prefixes()}."
+        "{red '{Unit_}'} (in `Unit_`) can't be  convernt to a {blue units::unit}, try to check unit with the function {green units::as_units()} and show more pre-defined units from UDUNITS2 with {green units::valid_udunits()} and {green units::valid_udunits_prefixes()}."
       ),
       .literal = TRUE
-    )
+    )}
   )
 
 }
@@ -47,10 +47,9 @@ check_dim_vari <- function(data_, Name_, Unit_) {
   if (dim_vari_ary != n_name | dim_vari_ary != n_unit) {
     abort(glue_col("Can't match the variable-scale of `data_` [{red n = {dim_vari_ary}}] with `Name_` [{red n = {n_name}}] or `Unit_` [{red n = {n_unit}}]."), .literal = TRUE)
   }
-  for (i in 1:n_unit) {
-    unit_check <- Unit_[i]
-    tryCatch(as_units(unit_check),
-             abort(glue_col("{red '{unit_check}'} (in `Unit_`) can't be  convernt to a {blue units::unit}, try to check unit with the function {green units::as_unit()} and show more pre-defined units from UDUNITS2 with {green units::valid_udunits()} and {green units::valid_udunits_prefixes()}."), .literal = TRUE)
+  for (unit_check in Unit_) {
+    tryCatch({as_units(unit_check)},
+             error = function(cond){abort(glue_col("{red '{unit_check}'} (in `Unit_`) can't be  convernt to a {blue units::unit}, try to check unit with the function {green units::as_units()} and show more pre-defined units from UDUNITS2 with {green units::valid_udunits()} and {green units::valid_udunits_prefixes()}."), .literal = TRUE)}
     )
   }
 }

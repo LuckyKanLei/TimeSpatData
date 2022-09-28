@@ -53,7 +53,7 @@ write_tsd.TimeVectVariable <- function(data_, fn_, other_Attr = NULL) {
   vars <- list(var_Data, var_time, var_spat, var_geom, var_geom_ID)
 
   ## Create a new empty netcdf file
-  nc_ <- nc_create(fn_, vars)
+  nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
   ncvar_put(nc_, var_Data, unclass(data_tvv))
@@ -120,7 +120,7 @@ write_tsd.TimeVectArray <- function(data_, fn_, other_Attr = NULL) {
   vars <- list(var_Data, var_time, var_spat, var_geom, var_geom_ID) #, var_name, var_unit)
 
   ## Create a new empty netcdf file
-  nc_ <- nc_create(fn_, vars)
+  nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
   ncvar_put(nc_, var_Data, unclass(data_tva))
@@ -181,7 +181,7 @@ write_tsd.TimeRastVariable <- function(data_, fn_, other_Attr = NULL) {
   vars <- list(var_Data, var_time, var_geometry) #, var_name, var_unit)
 
   ## Create a new empty netcdf file
-  nc_ <- nc_create(fn_, vars)
+  nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
   ncvar_put(nc_, var_Data, unclass(data_trv))
@@ -242,7 +242,7 @@ write_tsd.TimeRastArray <- function(data_, fn_, other_Attr = NULL) {
   vars <- list(var_Data, var_time, var_geometry) #, var_name, var_unit)
 
   ## Create a new empty netcdf file
-  nc_ <- nc_create(fn_, vars)
+  nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
   ncvar_put(nc_, var_Data, unclass(data_tra))
@@ -302,7 +302,7 @@ write_tsd.TimeRastLayerVariable <- function(data_, fn_, other_Attr = NULL) {
   vars <- list(var_Data, var_time, var_geometry) #, var_name, var_unit)
 
   ## Create a new empty netcdf file
-  nc_ <- nc_create(fn_, vars)
+  nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
   ncvar_put(nc_, var_Data, unclass(data_trv))
@@ -366,7 +366,7 @@ write_tsd.TimeRastLayerArray <- function(data_, fn_, other_Attr = NULL) {
   vars <- list(var_Data, var_time, var_geometry) #, var_name, var_unit)
 
   ## Create a new empty netcdf file
-  nc_ <- nc_create(fn_, vars)
+  nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
   ncvar_put(nc_, var_Data, unclass(data_tra))

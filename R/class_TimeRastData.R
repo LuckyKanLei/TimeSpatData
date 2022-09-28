@@ -79,7 +79,7 @@ new_TimeRastVariable.array <- function(data_, Name_, Unit_, Time_, Spat_EPSG, Sp
     Name = Name_,
     Unit = as_units(Unit_),
     Time = Time_,
-    Spat_EPSG = Spat_EPSG,
+    Spat_crs = Spat_EPSG,
     Spat_extent = ext(Spat_extent)
   )
 
@@ -289,7 +289,7 @@ new_TimeRastLayerVariable.array <- function(data_, Name_, Unit_, Time_, Spat_EPS
     Name = Name_,
     Unit = as_units(Unit_),
     Time = Time_,
-    Spat_EPSG = Spat_EPSG,
+    Spat_crs = Spat_EPSG,
     Spat_extent = ext(Spat_extent),
     n_Layer = n_Layer
   )
@@ -398,7 +398,7 @@ new_TimeRastLayerArray.array <- function(data_, Name_, Unit_, Time_, Spat_EPSG, 
     Name = Name_,
     Unit = Unit_,
     Time = Time_,
-    Spat_EPSG = Spat_EPSG,
+    Spat_crs = Spat_EPSG,
     Spat_extent = ext(Spat_extent),
     n_Layer = n_Layer
   )
