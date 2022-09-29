@@ -123,7 +123,13 @@ write_tsd.TimeVectArray <- function(data_, fn_, other_Attr = NULL) {
   nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
-  ncvar_put(nc_, var_Data, unclass(data_tva))
+  data_unclass <- unclass(data_tva)
+
+  for (i in 1:dim_n[3]) {
+    ncvar_put(nc_, var_Data, data_unclass[,,i], c(1,1,i), c(dim_n[1:2],1))
+  }
+
+  # ncvar_put(nc_, var_Data, unclass(data_tva))
   # ncvar_put(nc_, var_time, mt_Datetime)
   ncvar_put(nc_, var_time, attr(data_tva, "Time"))
   ncvar_put(nc_, var_spat, attr(data_tva, "Spat_ID"))
@@ -245,7 +251,13 @@ write_tsd.TimeRastArray <- function(data_, fn_, other_Attr = NULL) {
   nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
-  ncvar_put(nc_, var_Data, unclass(data_tra))
+  data_unclass <- unclass(data_tra)
+
+  for (i in 1:dim_n[4]) {
+    ncvar_put(nc_, var_Data, data_unclass[,,,i], c(1,1,1,i), c(dim_n[1:3],1))
+  }
+
+
   ncvar_put(nc_, var_time, attr(data_tra, "Time"))
   ncvar_put(nc_, var_geometry, attr(data_tra, "Spat_extent") |> num_ext())
   ## Varible Attributes
@@ -369,7 +381,13 @@ write_tsd.TimeRastLayerArray <- function(data_, fn_, other_Attr = NULL) {
   nc_ <- nc_create(fn_, vars, TRUE)
 
   ## put the data
-  ncvar_put(nc_, var_Data, unclass(data_tra))
+  data_unclass <- unclass(data_tra)
+
+  for (i in 1:dim_n[5]) {
+    ncvar_put(nc_, var_Data, data_unclass[,,,,i], c(1,1,1,1,i), c(dim_n[1:4],1))
+  }
+
+  # ncvar_put(nc_, var_Data, unclass(data_tra))
   ncvar_put(nc_, var_time, attr(data_tra, "Time"))
   ncvar_put(nc_, var_geometry, attr(data_tra, "Spat_extent") |> num_ext())
   ## Varible Attributes
