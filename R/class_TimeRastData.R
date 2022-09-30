@@ -38,6 +38,8 @@ new_TimeRastVariable.SpatRaster <- function(data_, Name_, Unit_, Time_, ...) { #
   ## data_
   check_SpatRaster(data_, length(Time_))
   ary_Data <- as.array(data_) |> aperm(c(3, 2, 1))
+  n_y <- dim(ary_Data)[3]
+  ary_Data[,,1:n_y] <- ary_Data[,,n_y:1]
 
   ## time
   check_dim_time(ary_Data, Time_)
@@ -74,7 +76,7 @@ new_TimeRastVariable.array <- function(data_, Name_, Unit_, Time_, Spat_EPSG, Sp
 
   ## spat
   check_extent_rast(data_, Spat_EPSG, Spat_extent)
-  Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
+  # Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
 
   ## vari
   check_unit(Unit_)
@@ -158,7 +160,7 @@ new_TimeRastArray.array <- function(data_, Name_, Unit_, Time_, Spat_EPSG, Spat_
 
   ## spat
   check_extent_rast(data_, Spat_EPSG, Spat_extent)
-  Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
+  # Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
 
   ## vari
   check_dim_vari(data_, Name_, Unit_)

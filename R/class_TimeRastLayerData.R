@@ -92,7 +92,7 @@ new_TimeRastLayerVariable.array <- function(data_, Name_, Unit_, Time_, Spat_EPS
 
   ## spat
   check_extent_rast(data_, Spat_EPSG, Spat_extent)
-  Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
+  # Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
 
   ## vari
   check_unit(Unit_)
@@ -180,7 +180,7 @@ new_TimeRastLayerArray.array <- function(data_, Name_, Unit_, Time_, Spat_EPSG, 
 
   ## spat
   check_extent_rast(data_, Spat_EPSG, Spat_extent)
-  Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
+  # Spat_EPSG <- paste0("EPSG:", Spat_EPSG)
 
   ## vari
   check_dim_vari(data_, Name_, Unit_)

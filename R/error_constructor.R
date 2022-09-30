@@ -6,7 +6,8 @@ check_dim_n_ary <- function(data_, n_dim_must) {
     abort(glue_col("`data_` must have {red {n_dim_must}} dimensions, not {blue {n_dim}}."), .literal = TRUE)
   }
 }
-#' @import rlang glue lubridate
+#' @import rlang glue
+#' @importFrom lubridate as_datetime is.timepoint tz
 check_dim_time <- function(data_, Time_) {
   if (!is.timepoint(Time_)) {
     abort(glue_col("The class of `Time_` must be {red 'Date'} or {red 'POSIXct'}. \nTry to use the functions {green lubridate::as_date()} or {green lubridate::as_datetime}."), .literal = TRUE)
@@ -19,7 +20,7 @@ check_dim_time <- function(data_, Time_) {
   }
 }
 
-#' @import rlang glue units
+#' @import units
 check_unit <- function(Unit_) {
   tryCatch(
     {as_units(Unit_)},
@@ -32,7 +33,7 @@ check_unit <- function(Unit_) {
   )
 
 }
-#' @import rlang glue units
+
 check_dim_vari <- function(data_, Name_, Unit_) {
 
   if (any(duplicated(Name_))) {
@@ -53,7 +54,7 @@ check_dim_vari <- function(data_, Name_, Unit_) {
     )
   }
 }
-#' @import rlang glue
+
 #' @importFrom methods isClass
 check_dim_spat <- function(data_, Spat_ID, Spat_Data) {
 
@@ -75,11 +76,32 @@ check_dim_spat <- function(data_, Spat_ID, Spat_Data) {
 
 }
 
+check_epsg <- function(tsd_data, mask_area) UseMethod("check_epsg", tsd_data)
+
+check_epsg_rast <- function(tsd_data, mask_area) {
+  epsg_tsd <- attr(tsd_data, "Spat_EPSG")
+  epsg_mask <- crs(mask_area) |> epsg()
+  if(!(epsg_mask == epsg_tsd)) {
+    abort(glue_col("The EPSG code of `tsd_data` and `mask_area` must be {blue same}. \nNow the EPSG of `tsd_data` is {red 'epsg_tsd'}, `mask_area.` is {red 'epsg_mask'}."), .literal = TRUE)
+  }
+
+}
+check_epsg_vect <- function(tsd_data, mask_area) {
+  epsg_tsd <- attr(tsd_data, "Spat_Data") |> crs() |> epsg()
+  epsg_mask <- crs(mask_area) |> epsg()
+  if(!(epsg_mask == epsg_tsd)) {
+    abort(glue_col("The EPSG code of `tsd_data` and `mask_area` must be {blue same}. \nNow the EPSG of `tsd_data` is {red 'epsg_tsd'}, `mask_area.` is {red 'epsg_mask'}."), .literal = TRUE)
+  }
+
+}
+check_epsg.TimeVectVariable <- check_epsg_vect
+check_epsg.TimeVectArray <- check_epsg_vect
+check_epsg.TimeRastVariable <- check_epsg_rast
+check_epsg.TimeRastArray <- check_epsg_rast
+check_epsg.TimeRastLayerVariable <- check_epsg_rast
+check_epsg.TimeRastLayerArray <- check_epsg_rast
 
 
-
-
-#' @import rlang glue
 check_extent_rast <- function(data_, Spat_EPSG, Spat_extent) {
 
   if(!is.numeric(Spat_EPSG)) {
@@ -93,7 +115,6 @@ check_extent_rast <- function(data_, Spat_EPSG, Spat_extent) {
 
 }
 
-#' @import rlang glue
 check_SpatRaster <- function(data_, n_layer_should) {
   if(crs(data_) == "") {
     abort(glue_col("`data_` must have the {red CRS} (Coordinate Reference System)."))
@@ -107,7 +128,7 @@ check_SpatRaster <- function(data_, n_layer_should) {
   }
 
 }
-#' @import rlang glue
+
 check_na <- function(data_, na_check) {
   if (any(is.na(data_))) {
     if (na_check) {

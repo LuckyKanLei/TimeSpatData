@@ -10,7 +10,7 @@
 #' - `TimeRastLayerArray`
 #' @param fn_ (char) filenames
 #' @param other_Attr (vector of named char) other global attributes
-#' @import terra ncdf4
+#' @importFrom terra as.polygons crop expanse geom geomtype mask rast res size values values<- xFromCol yFromRow
 #' @importFrom stringr str_length
 #' @importFrom purrr map
 #' @export

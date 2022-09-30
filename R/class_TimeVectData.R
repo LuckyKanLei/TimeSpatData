@@ -7,7 +7,6 @@
 #' - `TimeVectArray` is a data class that based on 3D-array. There are
 #' three dimensions: time-, spatial- and vraiable-dimension. The spatial-dimension holds also
 #' the geological vector-data (points, lines, polygons), that is saved in the `Spat_Data`.
-#' @name TimeVectVariable
 #' @param data_ (num-array) 2D for `TimeVectVariable` and 3D for `TimeVectArray`
 #' @param Name_,Unit_ (char or vector of char) name and unit of Variable, `Unit_` should be converted by [units::as_units()]
 #' @param Time_ (vector of lubridate::timepoint) time dimension, created by [lubridate::as_date()] or [lubridate::as_datetime()]
