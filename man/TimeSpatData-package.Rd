@@ -4,157 +4,109 @@
 \name{TimeSpatData-package}
 \alias{TimeSpatData-package}
 \title{basic concept of TimeSpatData}
-\description{
-Die grundsätzliche Beschreibung:
-}
-\section{Zeitliche-räumliche Daten Strukturen definieren}{
-\subsection{Makro Data-Dimensionen (\code{Dim}) definieren}{
+\section{Temporal-spatial data structures}{
+\subsection{Macro dimensions (\code{Dim})}{
 
-In der Makrosicht ist das TimeSpatData in drei Dimensionen definiert:
+\if{html}{\figure{TSD_cubic.svg}}
+\if{latex}{\figure{TSD_cubic.pdf}{options: width=90mm}}
+
+From a macro perspective, \code{TimeSpatData} is always defined in three dimensions:
 \itemize{
-\item \code{Time}: Zeitstampel definieren
-\item \code{Spat}: Räumliche Struktur definieren
-\item \code{Vari}: mehrere Variablen (Größe) definieren
-}
+\item \code{Time}: timestamps
+\item \code{Spat}: spatial
+\item \code{Vari}: multiple variables
 }
 
-\subsection{Datenstruktur (Array) Dimensionen (\code{dim}) definieren}{
+However, the Spat dimension actually has a different and complex form,
+as it is based on geological data raster and vector.
+In the vertical direction, we only support the layer dimension.
+This is not the physical vertical dimension like \code{x} and \code{y},
+but rather an extracted layer as a homogeneous layer.
 
-Die Daten bei der Bearbeitung und Speicherung werden in Array-Form
-gegeben, die Makro Dimensionen können nicht deutlich in eine
-Array-Dimensionen definiert werden, deshalb die Array-Dimensionen sind
-neu definiert:
+\if{html}{\figure{TSD_spat.svg}}
+\if{latex}{\figure{TSD_spat.pdf}{options: width=150mm}}
+}
+
+\subsection{Data structure (array) dimensions (\code{dim})}{
+
+During the data-processing and -storage, the data is always given in array form,
+the macro dimensions cannot be clearly defined in an array dimension,
+therefore the array dimensions are redefined:
 \subsection{\code{time}}{
 
-Dimension \code{time} ist für Zeit definiert und besitzt
-\strong{Rückwärtskonsistenz}. Es steht immer in der ersten Dimension, mit
-zwei Möglickeiten:
+Dimension \code{time} is defined for time and has backward consistency. It always stands in the first dimension, with two possible options:
 \itemize{
-\item \code{continuous}: mit festem Zeitschritt, bei \code{units} und
-\code{original_time} definiert
-\item \code{discrete}: ohne dem Begriff Zeitschritt, sondern immer die genau
-Zeitstempeln geben
+\item \code{continuous}: With a fixed time step, defined by \code{units} and \code{original_time}
+\item \code{discrete}: Without the concept of time step, but always giving the exact timestamps
 }
 }
 
-\subsection{\code{spat}}{
+\subsection{\code{spat} in horizontal}{
 
-Dimension \code{spat} ist für vector-Räumliche Daten (\code{points}, \code{lines}, und
-\code{polygons}) definiert, es ist nicht ordnend aber ist es mit Varibale
-\code{Spat_ID} und \code{Spat_Data} knüpft. Das CRS ist mit \strong{EPSG-code}
-definiert.
+Dimension \code{spat} is defined for vector spatial data (\code{points}, \code{lines}, and \code{polygons}).
+It is not ordinal, but is linked to the \code{Spat_ID} and \code{Spat_Data} variables.
+The coordinate reference system (CRS) is defined using an \strong{EPSG-code}.
 }
 
-\subsection{\code{x} und \code{y} in Horizontal}{
+\subsection{\code{x} und \code{y} in horizontal}{
 
 Die beide Dimensionen sind für Raster (einzeln Schichten) horizontal
 Koordinate definiert mit die Koordinaten-Werten von zentralen Punkten
 des Zells. Das CRS ist mit \strong{EPSG-code} definiert. Deshalb ist es nicht
 erlaubt die Einheit oder andere zusätzliche Sachen von den beiden
 Dimensionen zu definieren.
+
+The two dimensions \code{x} and \code{y} are defined for raster data in single layers.
+They represent the horizontal coordinates of the central points of cells in the raster.
+The coordinate reference system (CRS) is defined using an \strong{EPSG-code}.
+It is not allowed to define units or other additional information for these dimensions.
 }
 
-\subsection{\* \code{layer} und \code{z} in Vertikal}{
+\subsection{\code{layer} in vertical}{
 
-Die beiden Dimensionen sind für vertikale Schichten definiert.
-\itemize{
-\item \code{layer} meint eine konzeptionelle Schichten ohne genau vertikale
-Lage
-\item \code{z} mit genaue vertikale (vertikale CRS noch suchen), auch möglich
-mit Reference Fläche:
-\item oben von Reference Fläche
-\item oder unten von Reference Fläche
-}
+Dimension \code{layer} is defined as a conceptual layer without an exact vertical position.
 }
 
 \subsection{\code{vari}}{
 
-Dimension \code{vari} ist für mehre entsprechende Größe (Variable) definiert
-mit \code{Name} und \code{Unit}. Die Dimension steht immer am letzten.
+Dimension \code{vari} is defined for multiple corresponding variables with \code{Name} and \code{Unit}.
+The dimension always stands last.
 }
 
 }
 
-\subsection{Daten Type definieren}{
-\subsection{\code{Time}}{
+\subsection{Data type (name)}{
 
-Wegen den beiden kontinuierliche oder diskrete Form sind folgen beide
-\code{Time-Form} definiert:
+\code{Spat}
+
+Due to the variety of spatial data forms, there are four \code{Spat-Form} listed below:
 \itemize{
-\item \code{ConTime [time]}: kontinuierliche Zeit
-\item \code{DisTime [time]}: diskrete Zeit
-}
+\item \code{Vect [spat]}: Vector data (points, lines, polygons)
+\item \code{VectLayer [spat, layer]}: Vector data with multiple layers
+\item \code{Rast [x, y]}: Raster data in a single layer
+\item \code{RastLayer [x, y, layer]}: Raster data with multiple layers
 }
 
-\subsection{\code{Spat}}{
+\code{Vari}
 
-Wegen der Vielfalt von räumlichen Daten Form steht da unter fünf
-\code{Spat-Form}:
+Due to the different properties of variables, the following four \code{Vari-Form} are defined:
 \itemize{
-\item \code{Vect [spat]}: Vector Daten (Punkten, Linien, Polygonen)
-\item \code{VectLayer [spat, layer]}: Vector Daten mit mehrere Schichten
-\item \code{Rast [x, y]}: Raster Daten in einzelner Schichte
-\item \code{RastLayer [x, y, layer]}: Raster Daten mit mehrere Schichten
-\item \code{RastVert [x, y, z]}: Raster Daten mit vertikale CRS
+\item \verb{Vari [vari = 1] / []}: single variable
+\item \code{Array [vari]}: multiple variables with the same data-structure and -size
+}
+
+In summary, a complete \code{TimeSpatData} must define the three macro dimensions (not data dimensions).
+}
+
+\subsection{\code{TimeSpatData} in NetCDF}{
+
+The definition of dimensions in NetCDF remains the same as the data structure dimensions described above.
+Due to the limits of NetCDF, it is also necessary to further define other additional dimensions, variables, and attributes.
 }
 }
 
-\subsection{\code{Vari}}{
-
-Wegen der unterschiedlichen Ähnlichkeit zwischen Variable zu Variable,
-in der Sicht kann Daten auch in drei \code{Vari-Form} definiert:
-\itemize{
-\item \verb{Vari [vari = 1] / []}: nur einzelne Variable
-\item \code{Array [vari]}: mehrere Variablen gleiche Struktur und
-Dimensiongroße besetzen
-\item \code{Group [vari]}: mehrere Variablen gleiche Struktur und eine nicht
-identische Dimensiongroße besetzen (meisten Zeit, besonders für
-diskrete Zeitskala), aber diese flexibel Dimension gleichen Index
-besetzen muss
-}
-}
-
-\subsection{Time-Spat-Vari Daten}{
-
-Zusammenfassend kann man sagen, ein komplettes TimeSpatData muss die
-drei Makro Dimension (keine Daten Dimension) definieren. Es gibt
-insgesamt 2 (Time) \* 5 (Spat) \* 3 (Vari) = 30 (DataForm). Aber nicht
-alle Daten Type sind praktische, am folgen wird ein paar wichtige Daten
-Formen gegebn:
-\itemize{
-\item \code{ConTimeVectVari}:
-\item dim: [time, spat, vari] in 3D oder [time, spat] in 2D
-\item z.B.: Durchfluss Zeitreihe in Pegel-Netz
-\item \code{ConTimeVectArry}:
-\item dim: [time, spat, vari] in 3D
-\item z.B.: Meteorologische Zeitreihe (Temperatur, Luftfeuchte und
-Windgeschwindigkeit) in Meteostation-Netz
-\item \code{ConTimeRastArry}:
-\item dim: [time, x, y, vari] in 4D
-\item z.B.: reanalysieerte Meteorologische Zeitreihe (Temperatur,
-Luftfeuchte und Windgeschwindigkeit) in Raster Form
-}
-}
-
-}
-
-\subsection{TimeSpatData in NetCDF}{
-
-Die Definition von Dimensionen von NetCDF bleibt identisch wie oben
-Datenstruktur Dimensionen. Wegen der Begrenze von NetCDF muss man auch
-die andere zusätzliche Dimensionen, Variablen und Attributen weiter
-definieren. Aus der Rücksicht auf Einheitligkeit und
-Benutzerfreundlichkeit steht es folgende Konventionen:
-\subsection{\code{Time}}{
-
-Wegen den beiden kontinuierliche oder diskrete Form sind folgen beide
-\code{Time-Form} definiert:
-\itemize{
-\item \code{ConTime [time]}: kontinuierliche Zeit
-\item \code{DisTime [time]}: diskrete Zeit
-}
-}
-
-}
+\section{Processing Tools}{
+Under the TSD structure, there are four main tools: read, write, crop, and extract.
+For more details, see the section \link{read_tsd}, \link{write_tsd}, \link{crop_tsd} and \link{extract_tsd}.
 }
 

@@ -23,6 +23,6 @@ read_tsd(fn_, start = NA, count = NA)
 }
 }
 \description{
-read \code{TimeSpatData} from nc-file, that writed by \code{\link[=write_tsd]{write_tsd()}},
-or write by other tools that match the \code{TimeSpatData} convention.
+Read \code{TimeSpatData} from nc-file, that writed by \code{\link[=write_tsd]{write_tsd()}},
+or write by other tools that follow the \code{TimeSpatData} convention.
 }

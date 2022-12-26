@@ -41,8 +41,10 @@ write_nc_global_attr <- function(nc_, global_attr) {
 weight.mat <- function(rast_, polygon_region) {
   rast_ <- rast_[[1]]
   n_grid <- size(rast_)
-  id_grid <- array(1:n_grid, dim(rast_)[1:2])
-  id_grid[,] <- id_grid[,dim(rast_)[2]:1]
+  n_x <- ncol(rast_)
+  n_y <- nrow(rast_)
+  id_grid <- matrix(1:n_grid, n_x, n_y)
+  id_grid <- id_grid[,n_y:1] |> as.numeric()
   values(rast_) <- id_grid
   polygon_grid <- as.polygons(rast_)
   names(polygon_grid) <- "ID_grid"

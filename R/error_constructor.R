@@ -56,7 +56,7 @@ check_dim_vari <- function(data_, Name_, Unit_) {
 }
 
 #' @importFrom methods isClass
-check_dim_spat <- function(data_, Spat_ID, Spat_Data) {
+check_dim_spat <- function(Spat_ID, Spat_Data) {
 
   if(!(isClass(Spat_Data, "SpatVector") && "Spat_ID" %in% names(Spat_Data))) {
     abort(glue_col("The class of `Spat_Data` must be {red 'terra::SpatVector'}, please use the function {green terra::vect()}. \nAnd the `Spat_Data` must contian one Attribute named as {red 'Spat_ID'}, which match with `Spat_ID`."), .literal = TRUE)
@@ -79,10 +79,10 @@ check_dim_spat <- function(data_, Spat_ID, Spat_Data) {
 check_epsg <- function(tsd_data, mask_area) UseMethod("check_epsg", tsd_data)
 
 check_epsg_rast <- function(tsd_data, mask_area) {
-  epsg_tsd <- attr(tsd_data, "Spat_EPSG")
+  epsg_tsd <- attr(tsd_data, "Spat_crs")
   epsg_mask <- crs(mask_area) |> epsg()
   if(!(epsg_mask == epsg_tsd)) {
-    abort(glue_col("The EPSG code of `tsd_data` and `mask_area` must be {blue same}. \nNow the EPSG of `tsd_data` is {red 'epsg_tsd'}, `mask_area.` is {red 'epsg_mask'}."), .literal = TRUE)
+    abort(glue_col("The EPSG code of `tsd_data` and `mask_area` must be {blue same}. \nNow the EPSG of `tsd_data` is {red {epsg_tsd}}, `mask_area.` is {red {epsg_mask}}."), .literal = TRUE)
   }
 
 }
@@ -90,7 +90,7 @@ check_epsg_vect <- function(tsd_data, mask_area) {
   epsg_tsd <- attr(tsd_data, "Spat_Data") |> crs() |> epsg()
   epsg_mask <- crs(mask_area) |> epsg()
   if(!(epsg_mask == epsg_tsd)) {
-    abort(glue_col("The EPSG code of `tsd_data` and `mask_area` must be {blue same}. \nNow the EPSG of `tsd_data` is {red 'epsg_tsd'}, `mask_area.` is {red 'epsg_mask'}."), .literal = TRUE)
+    abort(glue_col("The EPSG code of `tsd_data` and `mask_area` must be {blue same}. \nNow the EPSG of `tsd_data` is {red {epsg_tsd}}, `mask_area.` is {red {epsg_mask}}."), .literal = TRUE)
   }
 
 }

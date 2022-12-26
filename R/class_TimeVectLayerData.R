@@ -1,11 +1,16 @@
-#' create `TimeVectVariable` and `TimeVectArray` data
-#' @name TimeVectData
+#' create `TimeVectLayerVariable` and `TimeVectLayerArray` data
+#' @name TimeVectLayerData
 #' @description
-#' - `TimeVectVariable` is a data class that is based on a 2D array. It has two dimensions: time and spatial.
+#' - `TimeVectLayerVariable` is a data class that is based on a 3D array. It has two "macro" dimensions: time and spatial.
 #' The spatial dimension also holds the geological vector data (points, lines, polygons) that is saved in the `Spat_Data`.
-#' - `TimeVectArray` is a data class that is based on a 3D array. It has three dimensions: time, spatial, and variable.
+#' But due to the vertical **layer** in spatial dimension,
+#' the data class actually has three data-dimensions: **(time, spat, layer)**.
+#'
+#' - `TimeVectLayerArray` is a data class that is based on a 4D array. It has three dimensions: time, spatial, and variable.
 #' The spatial dimension also holds the geological vector data (points, lines, polygons) that is saved in the `Spat_Data`.
-#' @param data_ (num-array) 2D for `TimeVectVariable` and 3D for `TimeVectArray`
+#' But due to the vertical **layer** in spatial dimension,
+#' the data class actually has four data-dimensions: **(time, spat, layer, variable)**.
+#' @param data_ (num-array) 3D for `TimeVectLayerVariable` and 4D for `TimeVectLayerArray`
 #' @param Name_,Unit_ (char or vector of char) name and unit of Variable, `Unit_` should be converted by [units::as_units()]
 #' @param Time_ (vector of lubridate::timepoint) time dimension, created by [lubridate::as_date()] or [lubridate::as_datetime()]
 #' @param Spat_ID (vector of char) the identifying of the spatial-dimension, they must be contained in the `Spat_Data`
@@ -13,11 +18,11 @@
 #' @param na_check (bool) if check the NAs
 #' @importFrom units as_units
 #' @export
-new_TimeVectVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na_check = FALSE) { #
+new_TimeVectLayerVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na_check = FALSE) { #
 
 
   ## dim
-  check_dim_n_ary(data_, 2)
+  check_dim_n_ary(data_, 3)
 
   ## time
   check_dim_time(data_, Time_)
@@ -34,10 +39,10 @@ new_TimeVectVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data,
 
 
 
-  TimeVectVariable <- structure(
+  TimeVectLayerVariable <- structure(
     data_,
-    class = c("TimeVectVariable", "array"),
-    dimnames = list(as.character(Time_), Spat_ID),
+    class = c("TimeVectLayerVariable", "array"),
+    dimnames = list(as.character(Time_), Spat_ID, NULL),
     Name = Name_,
     Unit = as_units(Unit_),
     Time = Time_,
@@ -46,11 +51,11 @@ new_TimeVectVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data,
   )
 }
 
-#' @rdname TimeVectData
+#' @rdname TimeVectLayerData
 #' @export
-new_TimeVectArray <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na_check = FALSE) { #
+new_TimeVectLayerArray <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na_check = FALSE) { #
   ## dim
-  check_dim_n_ary(data_, 3)
+  check_dim_n_ary(data_, 4)
 
   ## time
   check_dim_time(data_, Time_)
@@ -66,10 +71,10 @@ new_TimeVectArray <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na
 
   names(Unit_) <- Name_
 
-  TimeVectArray <- structure(
+  TimeVectLayerArray <- structure(
     data_,
-    class = c("TimeVectArray", "array"),
-    dimnames = list(as.character(Time_), Spat_ID, Name_),
+    class = c("TimeVectLayerArray", "array"),
+    dimnames = list(as.character(Time_), Spat_ID, NULL, Name_),
     Name = Name_,
     Unit = Unit_,
     Time = Time_,

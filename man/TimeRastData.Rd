@@ -54,13 +54,13 @@ it must be
 }
 \description{
 \itemize{
-\item \code{TimeRastVariable} is a data class that based on 3D-array. There are
-time, spatial two dimensions in "macro",
-but actually due to the spatial dimension in 2D-raster,
-so there are there dimension in data: \strong{(time, x, y)}.
-\item \code{TimeRastArray} is a data class that based on 4D-array. There are
-time, spatial and variable three dimensions in "macro",
-but actually due to the spatial dimension in 2D-raster,
-so there are four dimension in data: \strong{(time, x, y, variable)}.
+\item \code{TimeRastVariable} is a data class that is based on a 3D array.
+It has two "macro" dimensions, time and spatial.
+But due to the raster spatial has two dimension,
+the data class actually has three data-dimensions: \strong{(time, x, y)}.
+\item \code{TimeRastArray} is a data class that is based on a 4D array.
+It has three "macro" dimensions: time, spatial, and variable.
+But due to the raster spatial has two dimension,
+the data class actually has four data-dimensions: \strong{(time, x, y, variable)}.
 }
 }

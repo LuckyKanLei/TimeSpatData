@@ -5,6 +5,13 @@
 #' then only the polygons, lines oder points which in the `mask_area` will be exported.
 #' - for `TimeRastData` or `TimeRastLayerData` the spatial dimension will first crop [terra::crop] than [terra::mask]
 #' the raster-cells will be in NA setted, when they are not in the `mask_area`.
+#'
+#' Crop (mask) `TimeSpatData` to create a new `TimeSpatData`.
+#' Every time the function is used, **only one polygon** can be used as the mask_area.
+#' - For `TimeVectData`, the polygons, lines, or points will be intersected with the mask_area using [terra::intersect],
+#' and only the polygons, lines, or points within the `mask_area` will be exported.
+#' - For `TimeRastData`, the spatial dimension will be cropped using [terra::crop] and then masked using [terra::mask].
+#' Raster cells that are not within the `mask_area` will be set to NA.
 #' @name crop_tsd
 #' @param tsd_data `TimeSpatData` data
 #' - `TimeVectVariable`
@@ -59,6 +66,44 @@ crop_tsd.TimeVectArray <- function(tsd_data, mask_area) {
                     vect_tvd[match(Spat_ID, vect_tvd$Spat_ID),])
 }
 
+#' @rdname crop_tsd
+#' @export
+crop_tsd.TimeVectLayerVariable <- function(tsd_data, mask_area) {
+  check_epsg(tsd_data, mask_area)
+  vect_tvd <- attr(tsd_data, "Spat_Data")
+
+  intersect_tvd <- intersect(vect_tvd, mask_area)
+
+  Spat_ID <- intersect_tvd$Spat_ID
+
+  tvd_new <- tsd_data[,Spat_ID,] |> unclass()
+
+  new_TimeVectLayerVariable(tvd_new,
+                       attr(tsd_data, "Name"),
+                       attr(tsd_data, "Unit"),
+                       attr(tsd_data, "Time"),
+                       Spat_ID,
+                       vect_tvd[match(Spat_ID, vect_tvd$Spat_ID),])
+}
+#' @rdname crop_tsd
+#' @export
+crop_tsd.TimeVectLayerArray <- function(tsd_data, mask_area) {
+  check_epsg(tsd_data, mask_area)
+  vect_tvd <- attr(tsd_data, "Spat_Data")
+
+  intersect_tvd <- intersect(vect_tvd, mask_area)
+
+  Spat_ID <- intersect_tvd$Spat_ID
+
+  tvd_new <- tsd_data[,Spat_ID,,] |> unclass()
+
+  new_TimeVectLayerArray(tvd_new,
+                    attr(tsd_data, "Name"),
+                    attr(tsd_data, "Unit"),
+                    attr(tsd_data, "Time"),
+                    Spat_ID,
+                    vect_tvd[match(Spat_ID, vect_tvd$Spat_ID),])
+}
 
 #' @rdname crop_tsd
 #' @export
@@ -66,7 +111,7 @@ crop_tsd.TimeRastVariable <- function(tsd_data, mask_area) {
   check_epsg(tsd_data, mask_area)
   extent_ori <- attr(tsd_data, "Spat_extent")
   crs_ori <- attr(tsd_data, "Spat_crs")
-  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = crs_ori, extent = extent_ori)
+  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = paste0("EPSG:", crs_ori), extent = extent_ori)
 
   rast_crop <- crop(rast_trd, mask_area)
   extent_crop <- ext(rast_crop)
@@ -99,7 +144,7 @@ crop_tsd.TimeRastArray <- function(tsd_data, mask_area) {
   check_epsg(tsd_data, mask_area)
   extent_ori <- attr(tsd_data, "Spat_extent")
   crs_ori <- attr(tsd_data, "Spat_crs")
-  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = crs_ori, extent = extent_ori)
+  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = paste0("EPSG:", crs_ori), extent = extent_ori)
 
   rast_crop <- crop(rast_trd, mask_area)
   extent_crop <- ext(rast_crop)
@@ -134,7 +179,7 @@ crop_tsd.TimeRastLayerVariable <- function(tsd_data, mask_area) {
   check_epsg(tsd_data, mask_area)
   extent_ori <- attr(tsd_data, "Spat_extent")
   crs_ori <- attr(tsd_data, "Spat_crs")
-  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = crs_ori, extent = extent_ori)
+  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = paste0("EPSG:", crs_ori), extent = extent_ori)
 
   rast_crop <- crop(rast_trd, mask_area)
   extent_crop <- ext(rast_crop)
@@ -167,7 +212,7 @@ crop_tsd.TimeRastLayerArray <- function(tsd_data, mask_area) {
   check_epsg(tsd_data, mask_area)
   extent_ori <- attr(tsd_data, "Spat_extent")
   crs_ori <- attr(tsd_data, "Spat_crs")
-  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = crs_ori, extent = extent_ori)
+  rast_trd <- rast(nrows = dim(tsd_data)[3], ncols = dim(tsd_data)[2], crs = paste0("EPSG:", crs_ori), extent = extent_ori)
 
   rast_crop <- crop(rast_trd, mask_area)
   extent_crop <- ext(rast_crop)

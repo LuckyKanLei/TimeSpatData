@@ -1,25 +1,21 @@
 Package: TimeSpatData
 Type: Package
 Title: Time-Spatial data
-Version: 0.1.0
+Version: 0.1.9
 Author: Kan Lei
 Maintainer: Kan Lei <kan.lei@tu-dresden.de>
-Description: Create the Time-Spatial data in R or werite to and read from nc-file 
-  that match the `TimeSpatData` convention.
+Description: TimeSpatData defines a data structure (convention) and contains tools such as crop and extract. The TSD data structure is specifically designed for organizing and manipulating temporal and spatial data in array form. 
+  It provides clear dimensions for storing and processing this type of data, as well as a set of tools for reading, writing, cropping, and extracting the data as needed.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.0
 Roxygen: list(markdown = TRUE)
 Imports: 
-  utils,
-  methods,
+  utils, methods,
   units, 
-  terra, 
-  ncdf4,
-  rlang,
-  glue,
-  stringr,
-  purrr,
-  lubridate
+  terra, ncdf4, lubridate,
+  rlang, glue, stringr,
+  purrr
+  
   

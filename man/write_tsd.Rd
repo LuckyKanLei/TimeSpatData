@@ -4,6 +4,8 @@
 \alias{write_tsd}
 \alias{write_tsd.TimeVectVariable}
 \alias{write_tsd.TimeVectArray}
+\alias{write_tsd.TimeVectLayerVariable}
+\alias{write_tsd.TimeVectLayerArray}
 \alias{write_tsd.TimeRastVariable}
 \alias{write_tsd.TimeRastArray}
 \alias{write_tsd.TimeRastLayerVariable}
@@ -15,6 +17,10 @@ write_tsd(data_, fn_, other_Attr = NULL)
 \method{write_tsd}{TimeVectVariable}(data_, fn_, other_Attr = NULL)
 
 \method{write_tsd}{TimeVectArray}(data_, fn_, other_Attr = NULL)
+
+\method{write_tsd}{TimeVectLayerVariable}(data_, fn_, other_Attr = NULL)
+
+\method{write_tsd}{TimeVectLayerArray}(data_, fn_, other_Attr = NULL)
 
 \method{write_tsd}{TimeRastVariable}(data_, fn_, other_Attr = NULL)
 
@@ -29,6 +35,8 @@ write_tsd(data_, fn_, other_Attr = NULL)
 \itemize{
 \item \code{TimeVectVariable}
 \item \code{TimeVectArray}
+\item \code{TimeVectLayerVariable}
+\item \code{TimeVectLayerArray}
 \item \code{TimeRastVariable}
 \item \code{TimeRastArray}
 \item \code{TimeRastLayerVariable}

@@ -1,13 +1,13 @@
 #' create `TimeRastLayerVariable` and `TimeRastLayerArray` data
 #' @description
-#' - `TimeRastLayerVariable` is a data class that based on 4D-array. There are
-#' time, spatial two dimensions in "macro",
-#' but actually due to the spatial dimension in 2D-raster and also **layer** in vertical,
-#' so there are four dimension in data: **(time, x, y, layer)**.
-#' - `TimeRastLayerArray` is a data class that based on 4D-array. There are
-#' time, spatial and variable three dimensions in "macro",
-#' but actually due to the spatial dimension in 2D-raster and also **layer** in vertical,
-#' so there are five dimension in data: **(time, x, y, layer, variable)**.
+#' - `TimeRastLayerVariable` is a data class that is based on a 3D array.
+#' It has two "macro" dimensions, time and spatial.
+#' But due to the raster spatial has two dimension and the vertical **layer**,
+#' the data class actually has four data-dimensions: **(time, x, y, layer)**.
+#' - `TimeRastLayerArray` is a data class that is based on a 4D array.
+#' It has three "macro" dimensions: time, spatial, and variable.
+#' But due to the raster spatial has two dimension and the vertical **layer**,
+#' the data class actually has five data-dimensions: **(time, x, y, layer, variable)**.
 #' @param data_ (num-array or terra::SpatRaster)
 #' @name TimeRastLayerData
 #' @param data_ (num-array or terra::SpatRaster)

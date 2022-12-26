@@ -2,46 +2,48 @@
 #' @docType package
 #' @name TimeSpatData-package
 #' @description
-#' Die grundsätzliche Beschreibung:
-#' # Zeitliche-räumliche Daten Strukturen definieren
+#' # Temporal-spatial data structures
 #'
-#' ## Makro Data-Dimensionen (`Dim`) definieren
+#' ## Macro dimensions (`Dim`)
 #'
-#' In der Makrosicht ist das TimeSpatData in drei Dimensionen definiert:
+#' \if{html}{\figure{TSD_cubic.svg}}
+#' \if{latex}{\figure{TSD_cubic.pdf}{options: width=90mm}}
 #'
-#'   -   `Time`: Zeitstampel definieren
+#' From a macro perspective, `TimeSpatData` is always defined in three dimensions:
 #'
-#' -   `Spat`: Räumliche Struktur definieren
+#' -   `Time`: timestamps
+#' -   `Spat`: spatial
+#' -   `Vari`: multiple variables
 #'
-#' -   `Vari`: mehrere Variablen (Größe) definieren
+#' However, the Spat dimension actually has a different and complex form,
+#' as it is based on geological data raster and vector.
+#' In the vertical direction, we only support the layer dimension.
+#' This is not the physical vertical dimension like `x` and `y`,
+#' but rather an extracted layer as a homogeneous layer.
 #'
-#' ## Datenstruktur (Array) Dimensionen (`dim`) definieren
+#' \if{html}{\figure{TSD_spat.svg}}
+#' \if{latex}{\figure{TSD_spat.pdf}{options: width=150mm}}
 #'
-#' Die Daten bei der Bearbeitung und Speicherung werden in Array-Form
-#' gegeben, die Makro Dimensionen können nicht deutlich in eine
-#' Array-Dimensionen definiert werden, deshalb die Array-Dimensionen sind
-#' neu definiert:
+#' ## Data structure (array) dimensions (`dim`)
 #'
-#'   ### `time`
+#' During the data-processing and -storage, the data is always given in array form,
+#' the macro dimensions cannot be clearly defined in an array dimension,
+#' therefore the array dimensions are redefined:
 #'
-#'   Dimension `time` ist für Zeit definiert und besitzt
-#' **Rückwärtskonsistenz**. Es steht immer in der ersten Dimension, mit
-#' zwei Möglickeiten:
+#' ### `time`
 #'
-#'   -   `continuous`: mit festem Zeitschritt, bei `units` und
-#' `original_time` definiert
+#'   Dimension `time` is defined for time and has backward consistency. It always stands in the first dimension, with two possible options:
 #'
-#' -   `discrete`: ohne dem Begriff Zeitschritt, sondern immer die genau
-#' Zeitstempeln geben
+#' -   `continuous`: With a fixed time step, defined by `units` and `original_time`
+#' -   `discrete`: Without the concept of time step, but always giving the exact timestamps
 #'
-#' ### `spat`
+#' ### `spat` in horizontal
 #'
-#' Dimension `spat` ist für vector-Räumliche Daten (`points`, `lines`, und
-#'                                                  `polygons`) definiert, es ist nicht ordnend aber ist es mit Varibale
-#' `Spat_ID` und `Spat_Data` knüpft. Das CRS ist mit **EPSG-code**
-#'   definiert.
+#' Dimension `spat` is defined for vector spatial data (`points`, `lines`, and `polygons`).
+#' It is not ordinal, but is linked to the `Spat_ID` and `Spat_Data` variables.
+#' The coordinate reference system (CRS) is defined using an **EPSG-code**.
 #'
-#' ### `x` und `y` in Horizontal
+#' ### `x` und `y` in horizontal
 #'
 #' Die beide Dimensionen sind für Raster (einzeln Schichten) horizontal
 #' Koordinate definiert mit die Koordinaten-Werten von zentralen Punkten
@@ -49,108 +51,52 @@
 #' erlaubt die Einheit oder andere zusätzliche Sachen von den beiden
 #' Dimensionen zu definieren.
 #'
-#' ### \* `layer` und `z` in Vertikal
+#' The two dimensions `x` and `y` are defined for raster data in single layers.
+#' They represent the horizontal coordinates of the central points of cells in the raster.
+#' The coordinate reference system (CRS) is defined using an **EPSG-code**.
+#' It is not allowed to define units or other additional information for these dimensions.
 #'
-#' Die beiden Dimensionen sind für vertikale Schichten definiert.
+#' ### `layer` in vertical
 #'
-#' -   `layer` meint eine konzeptionelle Schichten ohne genau vertikale
-#' Lage
+#' Dimension `layer` is defined as a conceptual layer without an exact vertical position.
 #'
-#' -   `z` mit genaue vertikale (vertikale CRS noch suchen), auch möglich
-#' mit Reference Fläche:
-#'
-#'   -   oben von Reference Fläche
-#'
-#' -   oder unten von Reference Fläche
 #'
 #' ### `vari`
 #'
-#' Dimension `vari` ist für mehre entsprechende Größe (Variable) definiert
-#' mit `Name` und `Unit`. Die Dimension steht immer am letzten.
+#' Dimension `vari` is defined for multiple corresponding variables with `Name` and `Unit`.
+#' The dimension always stands last.
 #'
-#' ## Daten Type definieren
+#' ## Data type (name)
 #'
-#' ### `Time`
 #'
-#' Wegen den beiden kontinuierliche oder diskrete Form sind folgen beide
-#' `Time-Form` definiert:
+#' `Spat`
 #'
-#'   -   `ConTime [time]`: kontinuierliche Zeit
+#' Due to the variety of spatial data forms, there are four `Spat-Form` listed below:
 #'
-#' -   `DisTime [time]`: diskrete Zeit
+#' -   `Vect [spat]`: Vector data (points, lines, polygons)
+#' -   `VectLayer [spat, layer]`: Vector data with multiple layers
+#' -   `Rast [x, y]`: Raster data in a single layer
+#' -   `RastLayer [x, y, layer]`: Raster data with multiple layers
 #'
-#' ### `Spat`
 #'
-#' Wegen der Vielfalt von räumlichen Daten Form steht da unter fünf
-#' `Spat-Form`:
+#' `Vari`
 #'
-#'   -   `Vect [spat]`: Vector Daten (Punkten, Linien, Polygonen)
+#' Due to the different properties of variables, the following four `Vari-Form` are defined:
 #'
-#' -   `VectLayer [spat, layer]`: Vector Daten mit mehrere Schichten
+#' -   `Vari [vari = 1] / []`: single variable
+#' -   `Array [vari]`: multiple variables with the same data-structure and -size
 #'
-#' -   `Rast [x, y]`: Raster Daten in einzelner Schichte
 #'
-#' -   `RastLayer [x, y, layer]`: Raster Daten mit mehrere Schichten
 #'
-#' -   `RastVert [x, y, z]`: Raster Daten mit vertikale CRS
+#' In summary, a complete `TimeSpatData` must define the three macro dimensions (not data dimensions).
 #'
-#' ### `Vari`
+#' ## `TimeSpatData` in NetCDF
 #'
-#' Wegen der unterschiedlichen Ähnlichkeit zwischen Variable zu Variable,
-#' in der Sicht kann Daten auch in drei `Vari-Form` definiert:
+#' The definition of dimensions in NetCDF remains the same as the data structure dimensions described above.
+#' Due to the limits of NetCDF, it is also necessary to further define other additional dimensions, variables, and attributes.
 #'
-#'   -   `Vari [vari = 1] / []`: nur einzelne Variable
+#' # Processing Tools
+#' Under the TSD structure, there are four main tools: read, write, crop, and extract.
+#' For more details, see the section [read_tsd], [write_tsd], [crop_tsd] and [extract_tsd].
 #'
-#' -   `Array [vari]`: mehrere Variablen gleiche Struktur und
-#' Dimensiongroße besetzen
-#'
-#' -   `Group [vari]`: mehrere Variablen gleiche Struktur und eine nicht
-#' identische Dimensiongroße besetzen (meisten Zeit, besonders für
-#'                                     diskrete Zeitskala), aber diese flexibel Dimension gleichen Index
-#' besetzen muss
-#'
-#' ### Time-Spat-Vari Daten
-#'
-#' Zusammenfassend kann man sagen, ein komplettes TimeSpatData muss die
-#' drei Makro Dimension (keine Daten Dimension) definieren. Es gibt
-#' insgesamt 2 (Time) \* 5 (Spat) \* 3 (Vari) = 30 (DataForm). Aber nicht
-#' alle Daten Type sind praktische, am folgen wird ein paar wichtige Daten
-#' Formen gegebn:
-#'
-#'   -   `ConTimeVectVari`:
-#'
-#'   -   dim: \[time, spat, vari\] in 3D oder \[time, spat\] in 2D
-#'
-#' -   z.B.: Durchfluss Zeitreihe in Pegel-Netz
-#'
-#' -   `ConTimeVectArry`:
-#'
-#'   -   dim: \[time, spat, vari\] in 3D
-#'
-#' -   z.B.: Meteorologische Zeitreihe (Temperatur, Luftfeuchte und
-#'                                      Windgeschwindigkeit) in Meteostation-Netz
-#'
-#' -   `ConTimeRastArry`:
-#'
-#'   -   dim: \[time, x, y, vari\] in 4D
-#'
-#' -   z.B.: reanalysieerte Meteorologische Zeitreihe (Temperatur,
-#'                                                     Luftfeuchte und Windgeschwindigkeit) in Raster Form
-#'
-#' ## TimeSpatData in NetCDF
-#'
-#' Die Definition von Dimensionen von NetCDF bleibt identisch wie oben
-#' Datenstruktur Dimensionen. Wegen der Begrenze von NetCDF muss man auch
-#' die andere zusätzliche Dimensionen, Variablen und Attributen weiter
-#' definieren. Aus der Rücksicht auf Einheitligkeit und
-#' Benutzerfreundlichkeit steht es folgende Konventionen:
-#'
-#'   ### `Time`
-#'
-#'   Wegen den beiden kontinuierliche oder diskrete Form sind folgen beide
-#' `Time-Form` definiert:
-#'
-#'   -   `ConTime [time]`: kontinuierliche Zeit
-#'
-#' -   `DisTime [time]`: diskrete Zeit
 NULL
