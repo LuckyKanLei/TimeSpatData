@@ -98,5 +98,5 @@
 #' # Processing Tools
 #' Under the TSD structure, there are four main tools: read, write, crop, and extract.
 #' For more details, see the section [read_tsd], [write_tsd], [crop_tsd] and [extract_tsd].
-#'
+#' \loadmathjax
 NULL

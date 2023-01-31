@@ -108,5 +108,6 @@ Due to the limits of NetCDF, it is also necessary to further define other additi
 \section{Processing Tools}{
 Under the TSD structure, there are four main tools: read, write, crop, and extract.
 For more details, see the section \link{read_tsd}, \link{write_tsd}, \link{crop_tsd} and \link{extract_tsd}.
+\loadmathjax
 }
 

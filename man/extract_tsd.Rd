@@ -46,4 +46,13 @@ Extract \code{TimeSpatData} to \code{TimeVectData}.
 The theory is same as \link[terra:extract]{terra::extract}, \code{TimeVectData} or \code{TimeRastData} will be extracted using a weighted average in the given polygons (\code{mask_area}).
 The weight will be calculated based on the area of the polygons or raster cells within the \code{mask_area}.
 \strong{NOTE}: this function can only be used for \strong{values that make sense in weighted average}.
+
+\if{html}{\figure{plot_crop_weight.svg}}
+\if{latex}{\figure{plot_crop_weight.pdf}{options: width=150mm}}
+\loadmathjax
+\mjsdeqn{\vec{\Omega}_{[time,region]} = \vec{A}_{[time,grid]} \cdot \vec{W}_{[grid,region]}}
+
+Where \mjseqn{\vec{\Omega}_{[time,region]}} is the area mean of each EZG (\code{mat_value_region}),
+\mjseqn{\vec{A}_{[time,grid]}} are the Grid values for each time step (\code{mat_value})
+and \mjseqn{\vec{W}_{[grid,region]}} is the area fraction between each cell in the RU (\code{mat_weight}).
 }
