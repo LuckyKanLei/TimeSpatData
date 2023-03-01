@@ -4,7 +4,7 @@
 #' @param fn_ (char) filenames
 #' @param start,count (num) start and count od the data block, more see function [ncdf4::ncvar_get()]
 #' @import ncdf4
-#' @importFrom terra vect
+#' @importFrom terra vect wrap
 #' @importFrom stringr str_split
 #' @return `TimeSpatData` data
 #' - TimeVectVariable
@@ -28,7 +28,7 @@ read_tsd <- function(fn_, start = NA, count = NA) {
            Spat_Data <- vect(ncvar_get(nc_, "Spat_Geom"),
                              ncatt_get(nc_, "Spat_Geom", "Shape")$value,
                              data.frame(Spat_ID = ncvar_get(nc_, "Spat_Geom_ID")),
-                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value))
+                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value)) |> wrap()
            if(judge_count) {
              Spat_ID <- ncvar_get(nc_, "Spat_ID")[start[2]:count[2]]
              data_ <- new_TimeVectVariable(data_nc,
@@ -50,7 +50,7 @@ read_tsd <- function(fn_, start = NA, count = NA) {
            Spat_Data <- vect(ncvar_get(nc_, "Spat_Geom"),
                              ncatt_get(nc_, "Spat_Geom", "Shape")$value,
                              data.frame(Spat_ID = ncvar_get(nc_, "Spat_Geom_ID")),
-                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value))
+                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value)) |> wrap()
            if(judge_count) {
              Spat_ID <- ncvar_get(nc_, "Spat_ID")[start[2]:count[2]]
              data_ <- new_TimeVectArray(data_nc,
@@ -73,7 +73,7 @@ read_tsd <- function(fn_, start = NA, count = NA) {
            Spat_Data <- vect(ncvar_get(nc_, "Spat_Geom"),
                              ncatt_get(nc_, "Spat_Geom", "Shape")$value,
                              data.frame(Spat_ID = ncvar_get(nc_, "Spat_Geom_ID")),
-                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value))
+                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value)) |> wrap()
            if(judge_count) {
              Spat_ID <- ncvar_get(nc_, "Spat_ID")[start[2]:count[2]]
              data_ <- new_TimeVectVariable(data_nc,
@@ -95,7 +95,7 @@ read_tsd <- function(fn_, start = NA, count = NA) {
            Spat_Data <- vect(ncvar_get(nc_, "Spat_Geom"),
                              ncatt_get(nc_, "Spat_Geom", "Shape")$value,
                              data.frame(Spat_ID = ncvar_get(nc_, "Spat_Geom_ID")),
-                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value))
+                             paste0("EPSG:", ncatt_get(nc_, "Spat_Geom", "EPSG")$value)) |> wrap()
            if(judge_count) {
              Spat_ID <- ncvar_get(nc_, "Spat_ID")[start[2]:count[2]]
              data_ <- new_TimeVectArray(data_nc,

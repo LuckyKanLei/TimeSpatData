@@ -12,7 +12,7 @@
 #' - `TimeRastLayerArray`
 #' @param fn_ (char) filenames
 #' @param other_Attr (vector of named char) other global attributes
-#' @importFrom terra as.polygons crop expanse geom geomtype mask rast res size values values<- xFromCol yFromRow
+#' @importFrom terra as.polygons crop expanse geom geomtype mask rast vect res size values values<- xFromCol yFromRow
 #' @importFrom stringr str_length
 #' @importFrom purrr map
 #' @export
@@ -23,7 +23,7 @@ write_tsd <- function(data_, fn_, other_Attr = NULL) UseMethod("write_tsd", data
 write_tsd.TimeVectVariable <- function(data_, fn_, other_Attr = NULL) {
   data_tvv <- data_
   dim_n <- dim(data_tvv)
-  vect_data <- attr(data_tvv, "Spat_Data")
+  vect_data <- attr(data_tvv, "Spat_Data") |> vect()
   geom_data <- geom(vect_data)
   attr_data <- values(vect_data) |> as.data.frame()
   width_Spat_ID <- map(attr_data$Spat_ID, str_length) |> unlist() |> max()
@@ -86,7 +86,7 @@ write_tsd.TimeVectVariable <- function(data_, fn_, other_Attr = NULL) {
 write_tsd.TimeVectArray <- function(data_, fn_, other_Attr = NULL) {
   data_tva <- data_
   dim_n <- dim(data_tva)
-  vect_data <- attr(data_tva, "Spat_Data")
+  vect_data <- attr(data_tva, "Spat_Data") |> vect()
   geom_data <- geom(vect_data)
   attr_data <- values(vect_data) |> as.data.frame()
   width_Spat_ID <- map(attr_data$Spat_ID, str_length) |> unlist() |> max()
@@ -160,7 +160,7 @@ write_tsd.TimeVectArray <- function(data_, fn_, other_Attr = NULL) {
 write_tsd.TimeVectLayerVariable <- function(data_, fn_, other_Attr = NULL) {
   data_tvv <- data_
   dim_n <- dim(data_tvv)
-  vect_data <- attr(data_tvv, "Spat_Data")
+  vect_data <- attr(data_tvv, "Spat_Data") |> vect()
   geom_data <- geom(vect_data)
   attr_data <- values(vect_data) |> as.data.frame()
   width_Spat_ID <- map(attr_data$Spat_ID, str_length) |> unlist() |> max()
@@ -226,7 +226,7 @@ write_tsd.TimeVectLayerVariable <- function(data_, fn_, other_Attr = NULL) {
 write_tsd.TimeVectLayerArray <- function(data_, fn_, other_Attr = NULL) {
   data_tva <- data_
   dim_n <- dim(data_tva)
-  vect_data <- attr(data_tva, "Spat_Data")
+  vect_data <- attr(data_tva, "Spat_Data") |> vect()
   geom_data <- geom(vect_data)
   attr_data <- values(vect_data) |> as.data.frame()
   width_Spat_ID <- map(attr_data$Spat_ID, str_length) |> unlist() |> max()
@@ -305,7 +305,7 @@ write_tsd.TimeRastVariable <- function(data_, fn_, other_Attr = NULL) {
   dim_n <- dim(data_trv)
   rast_demo <- rast(data_trv[1,,] |> t(), crs = paste0("EPSG:", attr(data_trv, "Spat_crs")), extent = attr(data_trv, "Spat_extent"))
   x_rast <- xFromCol(rast_demo, 1:dim_n[2])
-  y_rast <- yFromRow(rast_demo, 1:dim_n[3])
+  y_rast <- yFromRow(rast_demo, dim_n[3]:1)
   width_Time <- map(attr(data_trv, "Time"), str_length) |> unlist() |> max()
 
   ## define the Dimensions
@@ -362,7 +362,7 @@ write_tsd.TimeRastArray <- function(data_, fn_, other_Attr = NULL) {
   dim_n <- dim(data_tra)
   rast_demo <- rast(data_tra[1,,,1] |> t(), crs = paste0("EPSG:", attr(data_tra, "Spat_crs")), extent = attr(data_tra, "Spat_extent"))
   x_rast <- xFromCol(rast_demo, 1:dim_n[2])
-  y_rast <- yFromRow(rast_demo, 1:dim_n[3])
+  y_rast <- yFromRow(rast_demo, dim_n[3]:1)
   width_Time <- map(attr(data_tra, "Time"), str_length) |> unlist() |> max()
 
   ## define the Dimensions
@@ -428,7 +428,7 @@ write_tsd.TimeRastLayerVariable <- function(data_, fn_, other_Attr = NULL) {
   dim_n <- dim(data_trv)
   rast_demo <- rast(data_trv[1,,] |> t(), crs = paste0("EPSG:", attr(data_trv, "Spat_crs")), extent = attr(data_trv, "Spat_extent"))
   x_rast <- xFromCol(rast_demo, 1:dim_n[2])
-  y_rast <- yFromRow(rast_demo, 1:dim_n[3])
+  y_rast <- yFromRow(rast_demo, dim_n[3]:1)
   width_Time <- map(attr(data_trv, "Time"), str_length) |> unlist() |> max()
 
   ## define the Dimensions
@@ -489,7 +489,7 @@ write_tsd.TimeRastLayerArray <- function(data_, fn_, other_Attr = NULL) {
   dim_n <- dim(data_tra)
   rast_demo <- rast(data_tra[1,,,1] |> t(), crs = paste0("EPSG:", attr(data_tra, "Spat_crs")), extent = attr(data_tra, "Spat_extent"))
   x_rast <- xFromCol(rast_demo, 1:dim_n[2])
-  y_rast <- yFromRow(rast_demo, 1:dim_n[3])
+  y_rast <- yFromRow(rast_demo, dim_n[3]:1)
   width_Time <- map(attr(data_tra, "Time"), str_length) |> unlist() |> max()
 
   ## define the Dimensions

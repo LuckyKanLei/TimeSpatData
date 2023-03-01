@@ -17,6 +17,7 @@
 #' @param Spat_Data (terra::SpatVector) geological data, create by [terra::vect()]
 #' @param na_check (bool) if check the NAs
 #' @importFrom units as_units
+#' @importFrom terra wrap
 #' @export
 new_TimeVectLayerVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na_check = FALSE) { #
 
@@ -47,7 +48,7 @@ new_TimeVectLayerVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_
     Unit = as_units(Unit_),
     Time = Time_,
     Spat_ID = Spat_ID,
-    Spat_Data = Spat_Data
+    Spat_Data = Spat_Data |> wrap()
   )
 }
 
@@ -79,7 +80,7 @@ new_TimeVectLayerArray <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Dat
     Unit = Unit_,
     Time = Time_,
     Spat_ID = Spat_ID,
-    Spat_Data = Spat_Data
+    Spat_Data = Spat_Data |> wrap()
   )
 }
 
