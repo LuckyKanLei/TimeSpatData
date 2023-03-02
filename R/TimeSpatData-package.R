@@ -1,7 +1,9 @@
 #' basic concept of TimeSpatData
 #' @docType package
 #' @name TimeSpatData-package
+#'
 #' @description
+#'
 #' # Temporal-spatial data structures
 #'
 #' ## Macro dimensions (`Dim`)
