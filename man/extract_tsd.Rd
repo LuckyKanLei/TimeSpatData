@@ -12,26 +12,26 @@
 \alias{extract_tsd.TimeRastLayerArray}
 \title{extract TimeSpatData (Spat-Dimension)}
 \usage{
-extract_tsd(tsd_data, mask_area)
+extract_tsd(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeVectVariable}(tsd_data, mask_area)
+\method{extract_tsd}{TimeVectVariable}(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeVectArray}(tsd_data, mask_area)
+\method{extract_tsd}{TimeVectArray}(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeVectLayerVariable}(tsd_data, mask_area)
+\method{extract_tsd}{TimeVectLayerVariable}(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeVectLayerArray}(tsd_data, mask_area)
+\method{extract_tsd}{TimeVectLayerArray}(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeRastVariable}(tsd_data, mask_area)
+\method{extract_tsd}{TimeRastVariable}(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeRastArray}(tsd_data, mask_area)
+\method{extract_tsd}{TimeRastArray}(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeRastLayerVariable}(tsd_data, mask_area)
+\method{extract_tsd}{TimeRastLayerVariable}(tsd_Data, mask_area)
 
-\method{extract_tsd}{TimeRastLayerArray}(tsd_data, mask_area)
+\method{extract_tsd}{TimeRastLayerArray}(tsd_Data, mask_area)
 }
 \arguments{
-\item{tsd_data}{\code{TimeSpatData} data
+\item{tsd_Data}{\code{TimeSpatData} data
 \itemize{
 \item \code{TimeVectVariable}
 \item \code{TimeVectArray}

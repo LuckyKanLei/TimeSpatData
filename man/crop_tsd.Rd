@@ -12,26 +12,26 @@
 \alias{crop_tsd.TimeRastLayerArray}
 \title{crop TimeSpatData (Spat-Dimension)}
 \usage{
-crop_tsd(tsd_data, mask_area)
+crop_tsd(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeVectVariable}(tsd_data, mask_area)
+\method{crop_tsd}{TimeVectVariable}(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeVectArray}(tsd_data, mask_area)
+\method{crop_tsd}{TimeVectArray}(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeVectLayerVariable}(tsd_data, mask_area)
+\method{crop_tsd}{TimeVectLayerVariable}(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeVectLayerArray}(tsd_data, mask_area)
+\method{crop_tsd}{TimeVectLayerArray}(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeRastVariable}(tsd_data, mask_area)
+\method{crop_tsd}{TimeRastVariable}(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeRastArray}(tsd_data, mask_area)
+\method{crop_tsd}{TimeRastArray}(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeRastLayerVariable}(tsd_data, mask_area)
+\method{crop_tsd}{TimeRastLayerVariable}(tsd_Data, mask_Area)
 
-\method{crop_tsd}{TimeRastLayerArray}(tsd_data, mask_area)
+\method{crop_tsd}{TimeRastLayerArray}(tsd_Data, mask_Area)
 }
 \arguments{
-\item{tsd_data}{\code{TimeSpatData} data
+\item{tsd_Data}{\code{TimeSpatData} data
 \itemize{
 \item \code{TimeVectVariable}
 \item \code{TimeVectArray}
@@ -41,24 +41,24 @@ crop_tsd(tsd_data, mask_area)
 \item \code{TimeRastLayerArray}
 }}
 
-\item{mask_area}{(SpatVector) \strong{one} Polygon, from \code{\link[terra:vect]{terra::vect()}}}
+\item{mask_Area}{(SpatVector) \strong{one} Polygon, from \code{\link[terra:vect]{terra::vect()}}}
 }
 \description{
 Crop (mask) \code{TimeSpatData} new \code{TimeSpatData}.
-Every time can only \strong{one Polygon} as the \code{mask_area}.
+Every time can only \strong{one Polygon} as the \code{mask_Area}.
 \itemize{
-\item for \code{TimeVectData} the polygons, lines oder points will mit \code{mask_area} first intersect \link[terra:intersect]{terra::intersect}
-then only the polygons, lines oder points which in the \code{mask_area} will be exported.
+\item for \code{TimeVectData} the polygons, lines oder points will mit \code{mask_Area} first intersect \link[terra:intersect]{terra::intersect}
+then only the polygons, lines oder points which in the \code{mask_Area} will be exported.
 \item for \code{TimeRastData} or \code{TimeRastLayerData} the spatial dimension will first crop \link[terra:crop]{terra::crop} than \link[terra:mask]{terra::mask}
-the raster-cells will be in NA setted, when they are not in the \code{mask_area}.
+the raster-cells will be in NA setted, when they are not in the \code{mask_Area}.
 }
 
 Crop (mask) \code{TimeSpatData} to create a new \code{TimeSpatData}.
-Every time the function is used, \strong{only one polygon} can be used as the mask_area.
+Every time the function is used, \strong{only one polygon} can be used as the mask_Area.
 \itemize{
-\item For \code{TimeVectData}, the polygons, lines, or points will be intersected with the mask_area using \link[terra:intersect]{terra::intersect},
-and only the polygons, lines, or points within the \code{mask_area} will be exported.
+\item For \code{TimeVectData}, the polygons, lines, or points will be intersected with the mask_Area using \link[terra:intersect]{terra::intersect},
+and only the polygons, lines, or points within the \code{mask_Area} will be exported.
 \item For \code{TimeRastData}, the spatial dimension will be cropped using \link[terra:crop]{terra::crop} and then masked using \link[terra:mask]{terra::mask}.
-Raster cells that are not within the \code{mask_area} will be set to NA.
+Raster cells that are not within the \code{mask_Area} will be set to NA.
 }
 }

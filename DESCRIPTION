@@ -15,7 +15,7 @@ Imports:
   utils, methods,
   mathjaxr, Rdpack, 
   units, 
-  terra, ncdf4, lubridate,
+  terra, ncdf4, lubridate, xts,
   rlang, glue, stringr,
   purrr
 RdMacros: mathjaxr, Rdpack  
