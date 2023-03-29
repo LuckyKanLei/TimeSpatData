@@ -17,6 +17,6 @@ Imports:
   units, 
   terra, ncdf4, lubridate, xts,
   rlang, glue, stringr,
-  purrr
+  purrr, dplyr
 RdMacros: mathjaxr, Rdpack  
   

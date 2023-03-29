@@ -43,7 +43,7 @@ new_TimeVectVariable <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data,
     Unit = as_units(Unit_),
     Time = Time_,
     Spat_ID = Spat_ID,
-    Spat_Data = Spat_Data |> wrap()
+    Spat_Data = (Spat_Data |> terra::wrap())
   )
 }
 
@@ -75,7 +75,7 @@ new_TimeVectArray <- function(data_, Name_, Unit_, Time_, Spat_ID, Spat_Data, na
     Unit = Unit_,
     Time = Time_,
     Spat_ID = Spat_ID,
-    Spat_Data = Spat_Data |> wrap()
+    Spat_Data = (Spat_Data |> terra::wrap())
   )
 }
 
