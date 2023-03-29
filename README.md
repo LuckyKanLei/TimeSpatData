@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# TimeSpatData <a href="https://luckykanlei.github.io/TimeSpatData/"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# TimeSpatData <a href="https://luckykanlei.github.io/TimeSpatData/index.html"><img src="man/figures/logo.png" align="right" height="138" /></a>
 
 # Temporal-spatial data structures
 
