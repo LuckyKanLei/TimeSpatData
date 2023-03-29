@@ -1,7 +1,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# TimeSpatData <a href="https://luckykanlei.github.io/TimeSpatData/index.html"><img src="man/figures/logo.png" align="right" height="138" /></a>
+# TimeSpatData <a href="https://luckykanlei.github.io/TimeSpatData/index.html"><img src="man/figures/logo.png" align="right" height="138" style="float:right; height:200px;"></a>
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/tidyverse/ggplot2/actions/workflows/R-CMD-check.yaml/badge.svg)]()
+<!-- badges: end -->
 
 # Temporal-spatial data structures
 
