@@ -19,4 +19,4 @@ Imports:
   rlang, glue, stringr,
   purrr, dplyr
 RdMacros: mathjaxr, Rdpack  
-  
+URL: https://github.com/LuckyKanLei/TimeSpatData, https://luckykanlei.github.io/TimeSpatData/

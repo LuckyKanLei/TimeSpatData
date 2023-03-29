@@ -44,7 +44,14 @@
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/LuckyKanLei/TimeSpatData/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -56,12 +63,119 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-TimeSpatData defines a data structure (convention) and contains tools such as crop and extract. The TSD data structure is specifically designed for organizing and manipulating temporal and spatial data in array form. 
-  It provides clear dimensions for storing and processing this type of data, as well as a set of tools for reading, writing, cropping, and extracting the data as needed.
+
+<div class="section level1"><div class="page-header"><h1 id="timespatdata-">TimeSpatData <a href="https://luckykanlei.github.io/TimeSpatData/" class="external-link"><img src="reference/figures/logo.png" align="right" height="138"></a>
+<a class="anchor" aria-label="anchor" href="#timespatdata-"></a>
+</h1></div></div>
+<div class="section level1">
+<h1 id="temporal-spatial-data-structures">Temporal-spatial data structures<a class="anchor" aria-label="anchor" href="#temporal-spatial-data-structures"></a>
+</h1>
+<div class="section level2">
+<h2 id="macro-dimensions-dim">Macro dimensions (<code>Dim</code>)<a class="anchor" aria-label="anchor" href="#macro-dimensions-dim"></a>
+</h2>
+<p>From a macro perspective, <code>TimeSpatData</code> is always defined in three dimensions:</p>
+<ul>
+<li>
+<code>Time</code>: timestamps</li>
+<li>
+<code>Spat</code>: spatial</li>
+<li>
+<code>Vari</code>: multiple variables</li>
+</ul>
+<p>However, the Spat dimension actually has a different and complex form, as it is based on geological data raster and vector. In the vertical direction, we only support the layer dimension. This is not the physical vertical dimension like <code>x</code> and <code>y</code>, but rather an extracted layer as a homogeneous layer.</p>
+</div>
+<div class="section level2">
+<h2 id="data-structure-array-dimensions-dim">Data structure (array) dimensions (<code>dim</code>)<a class="anchor" aria-label="anchor" href="#data-structure-array-dimensions-dim"></a>
+</h2>
+<p>During the data-processing and -storage, the data is always given in array form, the macro dimensions cannot be clearly defined in an array dimension, therefore the array dimensions are redefined:</p>
+<div class="section level3">
+<h3 id="time">
+<code>time</code><a class="anchor" aria-label="anchor" href="#time"></a>
+</h3>
+<p>Dimension <code>time</code> is defined for time and has backward consistency. It always stands in the first dimension, with two possible options:</p>
+<ul>
+<li>
+<code>continuous</code>: With a fixed time step, defined by <code>units</code> and <code>original_time</code>
+</li>
+<li>
+<code>discrete</code>: Without the concept of time step, but always giving the exact timestamps</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="spat-in-horizontal">
+<code>spat</code> in horizontal<a class="anchor" aria-label="anchor" href="#spat-in-horizontal"></a>
+</h3>
+<p>Dimension <code>spat</code> is defined for vector spatial data (<code>points</code>, <code>lines</code>, and <code>polygons</code>). It is not ordinal, but is linked to the <code>Spat_ID</code> and <code>Spat_Data</code> variables. The coordinate reference system (CRS) is defined using an <strong>EPSG-code</strong>.</p>
+</div>
+<div class="section level3">
+<h3 id="x-und-y-in-horizontal">
+<code>x</code> und <code>y</code> in horizontal<a class="anchor" aria-label="anchor" href="#x-und-y-in-horizontal"></a>
+</h3>
+<p>Die beide Dimensionen sind für Raster (einzeln Schichten) horizontal Koordinate definiert mit die Koordinaten-Werten von zentralen Punkten des Zells. Das CRS ist mit <strong>EPSG-code</strong> definiert. Deshalb ist es nicht erlaubt die Einheit oder andere zusätzliche Sachen von den beiden Dimensionen zu definieren.</p>
+<p>The two dimensions <code>x</code> and <code>y</code> are defined for raster data in single layers. They represent the horizontal coordinates of the central points of cells in the raster. The coordinate reference system (CRS) is defined using an <strong>EPSG-code</strong>. It is not allowed to define units or other additional information for these dimensions.</p>
+</div>
+<div class="section level3">
+<h3 id="layer-in-vertical">
+<code>layer</code> in vertical<a class="anchor" aria-label="anchor" href="#layer-in-vertical"></a>
+</h3>
+<p>Dimension <code>layer</code> is defined as a conceptual layer without an exact vertical position.</p>
+</div>
+<div class="section level3">
+<h3 id="vari">
+<code>vari</code><a class="anchor" aria-label="anchor" href="#vari"></a>
+</h3>
+<p>Dimension <code>vari</code> is defined for multiple corresponding variables with <code>Name</code> and <code>Unit</code>. The dimension always stands last.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="data-type-name">Data type (name)<a class="anchor" aria-label="anchor" href="#data-type-name"></a>
+</h2>
+<p><code>Spat</code></p>
+<p>Due to the variety of spatial data forms, there are four <code>Spat-Form</code> listed below:</p>
+<ul>
+<li>
+<code>Vect [spat]</code>: Vector data (points, lines, polygons)</li>
+<li>
+<code>VectLayer [spat, layer]</code>: Vector data with multiple layers</li>
+<li>
+<code>Rast [x, y]</code>: Raster data in a single layer</li>
+<li>
+<code>RastLayer [x, y, layer]</code>: Raster data with multiple layers</li>
+</ul>
+<p><code>Vari</code></p>
+<p>Due to the different properties of variables, the following four <code>Vari-Form</code> are defined:</p>
+<ul>
+<li>
+<code>Vari [vari = 1] / []</code>: single variable</li>
+<li>
+<code>Array [vari]</code>: multiple variables with the same data-structure and -size</li>
+</ul>
+<p>In summary, a complete <code>TimeSpatData</code> must define the three macro dimensions (not data dimensions).</p>
+</div>
+<div class="section level2">
+<h2 id="timespatdata-in-netcdf">
+<code>TimeSpatData</code> in NetCDF<a class="anchor" aria-label="anchor" href="#timespatdata-in-netcdf"></a>
+</h2>
+<p>The definition of dimensions in NetCDF remains the same as the data structure dimensions described above. Due to the limits of NetCDF, it is also necessary to further define other additional dimensions, variables, and attributes.</p>
+</div>
+</div>
+<div class="section level1">
+<h1 id="processing-tools">Processing Tools<a class="anchor" aria-label="anchor" href="#processing-tools"></a>
+</h1>
+<p>Under the TSD structure, there are four main tools: read, write, crop, and extract. For more details, see the section [read_tsd], [write_tsd], [crop_tsd] and [extract_tsd].</p>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/LuckyKanLei/TimeSpatData/" class="external-link">Browse source code</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL (&gt;= 2)</li>
