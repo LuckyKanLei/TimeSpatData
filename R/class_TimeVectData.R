@@ -9,7 +9,7 @@
 #' @param Name_,Unit_ (char or vector of char) name and unit of Variable, `Unit_` should be converted by [units::as_units()]
 #' @param Time_ (vector of lubridate::timepoint) time dimension, created by [lubridate::as_date()] or [lubridate::as_datetime()]
 #' @param Spat_ID (vector of char) the identifying of the spatial-dimension, they must be contained in the `Spat_Data`
-#' @param Spat_Data (terra::SpatVector) geological data, create by [terra::vect()]
+#' @param Spat_Data (terra::SpatVector) geological data, create by [terra::vect()], it must contain the key (attribute) named as "Spat_ID"
 #' @param na_check (bool) if check the NAs
 #' @importFrom units as_units
 #' @importFrom terra wrap

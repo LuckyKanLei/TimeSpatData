@@ -20,3 +20,7 @@ Imports:
   purrr, dplyr
 RdMacros: mathjaxr, Rdpack  
 URL: https://github.com/LuckyKanLei/TimeSpatData, https://luckykanlei.github.io/TimeSpatData/
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

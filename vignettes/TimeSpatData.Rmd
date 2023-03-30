@@ -1,0 +1,39 @@
+---
+title: "TimeSpatData"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{TimeSpatData}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+This site will show the structure of the vignettes:
+
+# Create from other form
+
+Article -> `vignette("create-tsd")` <- click
+
+The other Vignette are under the way:
+
+# Write and Read in or from NC
+
+# Processing
+
+
+
+# Visualisierte
+
+# Shiny App
+
+
+
+

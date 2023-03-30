@@ -35,7 +35,7 @@ new_TimeVectArray(
 
 \item{Spat_ID}{(vector of char) the identifying of the spatial-dimension, they must be contained in the \code{Spat_Data}}
 
-\item{Spat_Data}{(terra::SpatVector) geological data, create by \code{\link[terra:vect]{terra::vect()}}}
+\item{Spat_Data}{(terra::SpatVector) geological data, create by \code{\link[terra:vect]{terra::vect()}}, it must contain the key (attribute) named as "Spat_ID"}
 
 \item{na_check}{(bool) if check the NAs}
 }

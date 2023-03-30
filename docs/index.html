@@ -46,7 +46,16 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="articles/TimeSpatData.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/create-tsd.html">Create TSD</a>
+  </div>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -69,14 +78,14 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="timespatdata-">TimeSpatData 
-<a class="anchor" aria-label="anchor" href="#timespatdata-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="temporal-spatial-data-">Temporal-spatial Data 
+<a class="anchor" aria-label="anchor" href="#temporal-spatial-data-"></a>
 </h1>
 </div>
 <!-- badges: start -->
 </div>
 <div class="section level1">
-<h1 id="temporal-spatial-data-structures">Temporal-spatial data structures<a class="anchor" aria-label="anchor" href="#temporal-spatial-data-structures"></a>
+<h1 id="data-structures">Data structures<a class="anchor" aria-label="anchor" href="#data-structures"></a>
 </h1>
 <div class="section level2">
 <h2 id="macro-dimensions-dim">Macro dimensions (<code>Dim</code>)<a class="anchor" aria-label="anchor" href="#macro-dimensions-dim"></a>
@@ -90,10 +99,11 @@
 <li>
 <code>Vari</code>: multiple variables</li>
 </ul>
-<p>However, the Spat dimension actually has a different and complex form, as it is based on geological data raster and vector. In the vertical direction, we only support the layer dimension. This is not the physical vertical dimension like <code>x</code> and <code>y</code>, but rather an extracted layer as a homogeneous layer.</p>
+<p>However, the Spat dimension actually has a different and complex form, as it is based on geological data <strong>raster</strong> and <strong>vector</strong>.</p>
+<p>In the vertical direction, we only support the <em>layer dimension</em> in this version. This is not the physical vertical dimension like <code>x</code> and <code>y</code>, but rather an extracted layer as a homogeneous layer.</p>
 </div>
 <div class="section level2">
-<h2 id="data-structure-array-dimensions-dim">Data structure (array) dimensions (<code>dim</code>)<a class="anchor" aria-label="anchor" href="#data-structure-array-dimensions-dim"></a>
+<h2 id="data-array-dimensions-dim">Data (array) dimensions (<code>dim</code>)<a class="anchor" aria-label="anchor" href="#data-array-dimensions-dim"></a>
 </h2>
 <p>During the data-processing and -storage, the data is always given in array form, the macro dimensions cannot be clearly defined in an array dimension, therefore the array dimensions are redefined:</p>
 <div class="section level3">
@@ -113,7 +123,7 @@
 <h3 id="spat-in-horizontal">
 <code>spat</code> in horizontal<a class="anchor" aria-label="anchor" href="#spat-in-horizontal"></a>
 </h3>
-<p>Dimension <code>spat</code> is defined for vector spatial data (<code>points</code>, <code>lines</code>, and <code>polygons</code>). It is not ordinal, but is linked to the <code>Spat_ID</code> and <code>Spat_Data</code> variables. The coordinate reference system (CRS) is defined using an <strong>EPSG-code</strong>.</p>
+<p>Dimension <code>spat</code> is defined for vector spatial data (<code>points</code>, <code>lines</code>, and <code>polygons</code>). It is not ordinal, but is linked to the <code>Spat_ID</code> and <code>Spat_Data</code> variables. The coordinate reference system (CRS) is defined using an <a href="https://epsg.io/" class="external-link">EPSG-code</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="x-und-y-in-horizontal">
@@ -170,7 +180,7 @@
 <div class="section level1">
 <h1 id="processing-tools">Processing Tools<a class="anchor" aria-label="anchor" href="#processing-tools"></a>
 </h1>
-<p>Under the TSD structure, there are four main tools: read, write, crop, and extract. For more details, see the section [read_tsd], [write_tsd], [crop_tsd] and [extract_tsd].</p>
+<p>Under the TSD structure, there are four main tools: read, write, crop, and extract. For more details, see the section <code><a href="reference/read_tsd.html">read_tsd()</a></code>, <code><a href="reference/write_tsd.html">write_tsd()</a></code>, <code><a href="reference/crop_tsd.html">crop_tsd()</a></code> and <code><a href="reference/extract_tsd.html">extract_tsd()</a></code>.</p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">

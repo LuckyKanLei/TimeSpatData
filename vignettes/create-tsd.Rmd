@@ -1,0 +1,144 @@
+---
+title: "Create TSD"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Create TSD}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(TimeSpatData)
+```
+
+The dimension `Spat` and `Time` based on the package `terra` and `lubridate`, so it's necessary to load this package:
+
+
+```{r load}
+library(terra)
+library(lubridate)
+```
+
+
+# Create the TSD-data
+
+## `TimeRastData` based on Raster data
+
+There are two ways to create the `TimeRastData`, either read Raster-Cluster (multi-layers) into `array` or `terra::SpatRaster`:
+
+### Load data
+
+In this tutorial will convert three days meteorological data (potential ET) from [ReKIS](https://rekisviewer.hydro.tu-dresden.de/fdm/ReKISExpert.jsp) to TSD-data, the original data is saved as one of the raster format ASC-format.
+
+```{r read2array}
+## get the file path and names of raster data (in .asc)
+fp_Extdata <- system.file("extdata", package = "TimeSpatData") 
+fn_Asc <-  list.files(fp_Extdata, ".asc")
+
+## read data into SpatRaster and array
+rast_ET <- rast(file.path(fp_Extdata, fn_Asc[1:3]))  # the first six lines are the metadata
+ary_ET <- as.array(rast_ET)
+
+## check the data:
+rast_ET 
+str(ary_ET)
+```
+
+### From `array` to `TimeRastData`
+
+The convention of TSD-Data define the **fest order of dimensions**, therefor the dimension of array must be consistent like aim TSD-Data stay.
+
+The TSD-data anfordert always the geological information (`Spat`), but 
+the `array` data class can't save any geological data, so we need still set the arguments `Spat_EPSG` and `Spat_extent`:
+
+The dimension `Time` just need to convert the timestempal to the `Date` with `lubridate`
+
+**NOTE: The TSD-Data define the y-Aches always from SMALL to BIG, but the most raster data save them from north to south, so the y-value ist from big to small. Therefor we need adjust this dimension.**
+
+```{r array2trd}
+## reform the array
+ary_ET_reformed <- ary_ET[190:1,,] |> aperm(c(3,2,1))
+
+## get the geological info
+ext_Template <- ext(rast_ET)
+
+## convert to TSD
+tsd_ET_a <- new_TimeRastVariable(ary_ET_reformed, # data
+                               "ET", "mm/d", # name and unit
+                               as_date(c("1961-01-01", "1961-01-02", "1961-01-03")), # time
+                               31468, ext_Template) # Spat
+
+## check
+str(tsd_ET_a)
+```
+
+This method is first recognized, because it can easy deal with the **huge** data.
+
+### From `SpatRaster` to `TimeRastData`
+
+The second method is only recognized for data that contain not so many time step in `Time` dimension.
+
+```{r}
+## add the crs infomation to the data, this depend on wether the raster-file contain this infomation, 
+## when es contauin this info in original, then this step is not necessery
+crs(rast_ET) <- "EPSG:31468"
+## convert to TSD
+tsd_ET_r <- new_TimeRastVariable(rast_ET, # data
+                               "ET", "mm/d", # name and unit
+                               as_date(c("1961-01-01", "1961-01-02", "1961-01-03"))) # time
+
+## check
+str(tsd_ET_r)
+
+```
+
+
+
+## `TimeVectData` based on Vector (and table) data
+
+Compare to the raster data, the vector data save always only the geometric data, 
+the other time-based data will be saved in separated data.
+Therefor the both parties are always needed by the create of the `TimeVectData`.
+
+### Load data
+
+The polygons of Catchments "Mulde" and "Speree" in Saxony, German is download from [iDA (interdisziplinäre Daten und Auswertungen)](https://www.umwelt.sachsen.de/umwelt/infosysteme/ida/index.xhtml) and in GPKG-Format reformed.
+
+```{r read2vect}
+## load polygon
+polygon_SAX <- vect(file.path(fp_Extdata, "shp_SAX_EZG.gpkg"))
+
+## random array data
+ary_Q <- array(runif(10, 0, 6), c(5, 2)) # random number for two `Spat` (polygons) and five `Time` (time steps)
+
+```
+
+### From `SpatVector` and `array` to `TimeVectData`
+
+**NOTE: the Spat_Data MUST contain the attribute "Spat_ID"**
+
+```{r}
+## convert to TSD
+tsd_Q_v <- new_TimeVectVariable(ary_Q, # data
+                               "Q", "m3/s", # name and unit
+                               as_date(c("1961-01-01", "1961-01-02", "1961-01-03", "1961-01-04", "1961-01-05")), # time
+                               c("PID560051", "PID582820"), # Spat_ID
+                               polygon_SAX) # Spat data, that must contain the attribute "Spat_ID"
+
+## check
+str(tsd_Q_v)
+
+```
+
+
+
+
+
+

@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# TimeSpatData <a href="https://luckykanlei.github.io/TimeSpatData/index.html"><img src="man/figures/logo.png" align="right" height="138" style="float:right; height:200px;"></a>
+# Temporal-spatial Data <a href="https://luckykanlei.github.io/TimeSpatData/index.html"><img src="man/figures/logo.png" align="right" height="138" style="float:right; height:200px;"></a>
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/tidyverse/ggplot2/actions/workflows/R-CMD-check.yaml/badge.svg)]()
 <!-- badges: end -->
 
-# Temporal-spatial data structures
+# Data structures
 
 ## Macro dimensions (`Dim`)
 
@@ -20,12 +20,13 @@ dimensions:
 -   `Vari`: multiple variables
 
 However, the Spat dimension actually has a different and complex form,
-as it is based on geological data raster and vector. In the vertical
-direction, we only support the layer dimension. This is not the physical
-vertical dimension like `x` and `y`, but rather an extracted layer as a
-homogeneous layer.
+as it is based on geological data **raster** and **vector**.
 
-## Data structure (array) dimensions (`dim`)
+In the vertical direction, we only support the *layer dimension* in this
+version. This is not the physical vertical dimension like `x` and `y`,
+but rather an extracted layer as a homogeneous layer.
+
+## Data (array) dimensions (`dim`)
 
 During the data-processing and -storage, the data is always given in
 array form, the macro dimensions cannot be clearly defined in an array
@@ -46,7 +47,7 @@ always stands in the first dimension, with two possible options:
 Dimension `spat` is defined for vector spatial data (`points`, `lines`,
 and `polygons`). It is not ordinal, but is linked to the `Spat_ID` and
 `Spat_Data` variables. The coordinate reference system (CRS) is defined
-using an **EPSG-code**.
+using an [EPSG-code](https://epsg.io/).
 
 ### `x` und `y` in horizontal
 
@@ -106,5 +107,5 @@ and attributes.
 # Processing Tools
 
 Under the TSD structure, there are four main tools: read, write, crop,
-and extract. For more details, see the section \[read_tsd\],
-\[write_tsd\], \[crop_tsd\] and \[extract_tsd\].
+and extract. For more details, see the section `read_tsd()`,
+`write_tsd()`, `crop_tsd()` and `extract_tsd()`.
