@@ -50,9 +50,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="overview-of-tsd">Overview of TSD<a class="anchor" aria-label="anchor" href="#overview-of-tsd"></a></h2>
       
-      
+      <p class="section-desc"></p><p>Create the raster-based TSD-Data from array or SpatRaster.</p>
 
       
     </div><div id="" class="section level2">
@@ -62,10 +62,113 @@
 
       <dl><dt>
           
-          <code><a href="coalesce_tsd.html">coalesce_tsd()</a></code> 
+          <code><a href="TimeSpatData-package.html">TimeSpatData-package</a></code> 
         </dt>
-        <dd>coalesce TimeSpatData (Layer-Dimension)</dd>
+        <dd>basic concept of TimeSpatData</dd>
+      </dl></div><div class="section level2">
+      <h2 id="create-new-tsd-data">Create (new) TSD-Data<a class="anchor" aria-label="anchor" href="#create-new-tsd-data"></a></h2>
+      
+      
+
+      
+    </div><div class="section level2">
+      
+      <h3 id="create-raster-based-tsd-data">Create Raster-based TSD-Data<a class="anchor" aria-label="anchor" href="#create-raster-based-tsd-data"></a></h3>
+      <p class="section-desc"></p><p>Create the raster-based TSD-Data from array or SpatRaster.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="TimeRastData.html">new_TimeRastVariable()</a></code> <code><a href="TimeRastData.html">new_TimeRastArray()</a></code> 
+        </dt>
+        <dd>create <code>TimeRastVariable</code> and <code>TimeRastArray</code> data</dd>
       </dl><dl><dt>
+          
+          <code><a href="TimeRastLayerData.html">new_TimeRastLayerVariable()</a></code> <code><a href="TimeRastLayerData.html">new_TimeRastLayerArray()</a></code> 
+        </dt>
+        <dd>create <code>TimeRastLayerVariable</code> and <code>TimeRastLayerArray</code> data</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="create-raster-based-tsd-data-1">Create Raster-based TSD-Data<a class="anchor" aria-label="anchor" href="#create-raster-based-tsd-data-1"></a></h3>
+      <p class="section-desc"></p><p>Create the vector-based TSD-Data from array and SpatVector.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="TimeVectData.html">new_TimeVectVariable()</a></code> <code><a href="TimeVectData.html">new_TimeVectArray()</a></code> 
+        </dt>
+        <dd>create <code>TimeVectVariable</code> and <code>TimeVectArray</code> data</dd>
+      </dl><dl><dt>
+          
+          <code><a href="TimeVectLayerData.html">new_TimeVectLayerVariable()</a></code> <code><a href="TimeVectLayerData.html">new_TimeVectLayerArray()</a></code> 
+        </dt>
+        <dd>create <code>TimeVectLayerVariable</code> and <code>TimeVectLayerArray</code> data</dd>
+      </dl></div><div class="section level2">
+      <h2 id="write-and-read-tsd-data">Write and Read TSD-Data<a class="anchor" aria-label="anchor" href="#write-and-read-tsd-data"></a></h2>
+      
+      
+
+      
+    </div><div class="section level2">
+      
+      <h3 id="write-tsd-to-nc-format">Write TSD to NC Format<a class="anchor" aria-label="anchor" href="#write-tsd-to-nc-format"></a></h3>
+      <p class="section-desc"></p><p>Write TSD from R-Space to NC-File.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="write_tsd.html">write_tsd()</a></code> 
+        </dt>
+        <dd>write TimeSpatData</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="write-tsd-from-nc-format">Write TSD from NC Format<a class="anchor" aria-label="anchor" href="#write-tsd-from-nc-format"></a></h3>
+      <p class="section-desc"></p><p>Read TSD from NC-File to R-Space.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="read_tsd.html">read_tsd()</a></code> 
+        </dt>
+        <dd>read TimeSpatData</dd>
+      </dl></div><div class="section level2">
+      <h2 id="processing">Processing<a class="anchor" aria-label="anchor" href="#processing"></a></h2>
+      
+      
+
+      
+    </div><div class="section level2">
+      
+      <h3 id="spatial-dimension">Spatial Dimension<a class="anchor" aria-label="anchor" href="#spatial-dimension"></a></h3>
+      <p class="section-desc"></p><p>Functions, that process the data in spatial Dimension with “terra”.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="crop_tsd.html">crop_tsd()</a></code> 
         </dt>
@@ -77,51 +180,44 @@
         <dd>extract TimeSpatData (Spat-Dimension)</dd>
       </dl><dl><dt>
           
-          <code><a href="read_tsd.html">read_tsd()</a></code> 
+          <code><a href="coalesce_tsd.html">coalesce_tsd()</a></code> 
         </dt>
-        <dd>read TimeSpatData</dd>
-      </dl><dl><dt>
-          
-          <code><a href="subset.html">`[[`(<i>&lt;TimeVectArray&gt;</i>)</a></code> <code><a href="subset.html">`[[`(<i>&lt;TimeRastArray&gt;</i>)</a></code> <code><a href="subset.html">`[[`(<i>&lt;TimeRastLayerArray&gt;</i>)</a></code> 
-        </dt>
-        <dd>get the <code>TimeSpatVariable</code> from <code>TimeSpatArray</code></dd>
-      </dl><dl><dt>
+        <dd>coalesce TimeSpatData (Layer-Dimension)</dd>
+      </dl></div><div class="section level2">
+      
+      <h3 id="temporal-dimension">Temporal Dimension<a class="anchor" aria-label="anchor" href="#temporal-dimension"></a></h3>
+      <p class="section-desc"></p><p>Functions, that process the data in temporal Dimension.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="summary_time_tsd.html">summary_time_tsd()</a></code> <code><a href="summary_time_tsd.html">summary_index_tsd()</a></code> 
         </dt>
         <dd>summarize TimeSpatData in Time-Dimension</dd>
-      </dl><dl><dt>
+      </dl></div><div class="section level2">
+      
+      <h3 id="general">General<a class="anchor" aria-label="anchor" href="#general"></a></h3>
+      <p class="section-desc"></p><p>Functions, for general processing.</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
-          <code><a href="TimeRastData.html">new_TimeRastVariable()</a></code> <code><a href="TimeRastData.html">new_TimeRastArray()</a></code> 
+          <code><a href="subset.html">`[[`(<i>&lt;TimeVectArray&gt;</i>)</a></code> <code><a href="subset.html">`[[`(<i>&lt;TimeRastArray&gt;</i>)</a></code> <code><a href="subset.html">`[[`(<i>&lt;TimeRastLayerArray&gt;</i>)</a></code> 
         </dt>
-        <dd>create <code>TimeRastVariable</code> and <code>TimeRastArray</code> data</dd>
-      </dl><dl><dt>
-          
-          <code><a href="TimeRastLayerData.html">new_TimeRastLayerVariable()</a></code> <code><a href="TimeRastLayerData.html">new_TimeRastLayerArray()</a></code> 
-        </dt>
-        <dd>create <code>TimeRastLayerVariable</code> and <code>TimeRastLayerArray</code> data</dd>
-      </dl><dl><dt>
-          
-          <code><a href="TimeSpatData-package.html">TimeSpatData-package</a></code> 
-        </dt>
-        <dd>basic concept of TimeSpatData</dd>
-      </dl><dl><dt>
-          
-          <code><a href="TimeVectData.html">new_TimeVectVariable()</a></code> <code><a href="TimeVectData.html">new_TimeVectArray()</a></code> 
-        </dt>
-        <dd>create <code>TimeVectVariable</code> and <code>TimeVectArray</code> data</dd>
-      </dl><dl><dt>
-          
-          <code><a href="TimeVectLayerData.html">new_TimeVectLayerVariable()</a></code> <code><a href="TimeVectLayerData.html">new_TimeVectLayerArray()</a></code> 
-        </dt>
-        <dd>create <code>TimeVectLayerVariable</code> and <code>TimeVectLayerArray</code> data</dd>
-      </dl><dl><dt>
-          
-          <code><a href="write_tsd.html">write_tsd()</a></code> 
-        </dt>
-        <dd>write TimeSpatData</dd>
+        <dd>get the <code>TimeSpatVariable</code> from <code>TimeSpatArray</code></dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

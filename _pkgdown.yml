@@ -7,3 +7,45 @@ template:
     primary: "#EC008D"
     base_font: {google: "Open Sans"}
     heading_font: {google: "Open Sans"}
+
+
+reference:
+- title: Overview of TSD
+  desc: Create the raster-based TSD-Data from array or SpatRaster.
+- contents:
+  - TimeSpatData-package
+- title: Create (new) TSD-Data
+- subtitle: Create Raster-based TSD-Data
+  desc: Create the raster-based TSD-Data from array or SpatRaster.
+- contents:
+  - starts_with("TimeRast")
+- subtitle: Create Raster-based TSD-Data
+  desc: Create the vector-based TSD-Data from array and SpatVector.
+  contents:
+  - starts_with("TimeVect")
+- title: Write and Read TSD-Data
+- subtitle: Write TSD to NC Format
+  desc: Write TSD from R-Space to NC-File.
+- contents:
+  - starts_with("write")
+- subtitle: Write TSD from NC Format
+  desc: Read TSD from NC-File to R-Space.
+  contents:
+  - starts_with("read")
+- title: Processing
+- subtitle: Spatial Dimension
+  desc: Functions, that process the data in spatial Dimension with "terra".
+- contents:
+  - crop_tsd
+  - extract_tsd
+  - coalesce_tsd
+- subtitle: Temporal Dimension
+  desc: Functions, that process the data in temporal Dimension.
+  contents:
+  - summary_time_tsd
+- subtitle: General
+  desc: Functions, for general processing.
+  contents:
+  - subset
+
+
